@@ -9,7 +9,7 @@ public class Potato {
     Potato potato = new Potato();
     Glados glados = new Glados();
     if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
-    else System.out.println("Fatal error! How could potato not be delicious?");
+    else System.err.println("Fatal error! How could potato not be delicious?");
   }
 
   public boolean prepare() {
@@ -44,7 +44,7 @@ public class Potato {
   private static class Glados extends Potato {
       public Glados()
       {
-          System.out.println("Oh hi, how are you holding up? BECAUSE I’M A POTATO… clap clap clap… oh good, my slow clap processor made it into this thing, at least we have that.");
+          System.out.println("Oh hi, how are you holding up? BECAUSE Iï¿½M A POTATOï¿½ clap clap clapï¿½ oh good, my slow clap processor made it into this thing, at least we have that.");
       }
   }
 }
