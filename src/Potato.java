@@ -7,6 +7,7 @@ public class Potato {
 
   public static void main(String[] args) {
     Potato potato = new Potato();
+    Glados glados = new Glados();
     if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
     else System.out.println("Fatal error! How could potato not be delicious?");
   }
@@ -38,5 +39,12 @@ public class Potato {
     public String getName() {
       return this.name;
     }
+  }
+
+  private static class Glados extends Potato {
+      public Glados()
+      {
+          System.out.println("Oh hi, how are you holding up? BECAUSE I’M A POTATO… clap clap clap… oh good, my slow clap processor made it into this thing, at least we have that.");
+      }
   }
 }
