@@ -1,9 +1,14 @@
+import java.lang.*;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Potato {
 
   private final List<Condiment> condiments = new ArrayList<Condiment>();
+
+  public Potato () {
+    System.out.println("Potato in the house!);
+  }
 
   public static void main(String[] args) {
     Potato potato = new Potato();
@@ -42,8 +47,7 @@ public class Potato {
   }
 
   private static class Glados extends Potato {
-      public Glados()
-      {
+      public Glados() {
           System.out.println("Oh hi, how are you holding up? BECAUSE I'M A POTATO... clap clap clap... oh good, my slow clap processor made it into this thing, at least we have that.");
       }
   }
