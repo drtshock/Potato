@@ -22,6 +22,10 @@
         <configuration>
           <archive>
             <addMavenDescriptor>false</addMavenDescriptor>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>Potato</mainClass>
+            </manifest>
           </archive>
           <finalName>Potato</finalName>
         </configuration>
