@@ -11,4 +11,4 @@ The potato first appeared in peru about ten thousand years ago. The potato was a
 
 By the time potatoes were introduced into Europe, the fork was already prevelant. Hence, started the tradition of forking the potato.
 
-You too can coninue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork."
+You too can continue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork."
