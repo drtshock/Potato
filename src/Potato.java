@@ -6,7 +6,7 @@ public class Potato {
   private final List<Condiment> condiments = new ArrayList<Condiment>();
 
   public Potato () {
-    System.out.println("Potato in the house!);
+    System.out.println("Potato in the house!");
   }
 
   public static void main(String[] args) {
