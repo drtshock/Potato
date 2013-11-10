@@ -1,30 +1,29 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class Potato {
+public class Potato implements Tuber {
 
   private final List<Condiment> condiments = new ArrayList<Condiment>();
 
   public static void main(String[] args) {
     Potato potato = new Potato();
-    Glados glados = new Glados();
+    GLaDOS glados = new GLaDOS();
     if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
-    else System.out.println("Fatal error! How could potato not be delicious?");
+    else System.err.println("Fatal error! How could potato not be delicious?");
   }
 
   public boolean prepare() {
-    this.addCondiment("sour cream");
-    this.addCondiment("chives");
-    this.addCondiment("butter");
+    this.addCondiments("sour cream", "chives", "butter");
     return this.isDelicious();
   }
 
-  public void addCondiment(String name) {
+  public void addCondiments(String... names) {
     synchronized (condiments) {
-      condiments.add(new Condiment(name));
+      for (String condimentName : names) condiments.add(new Condiment(condimentName));
     }
   }
 
+  @Override
   public boolean isDelicious() {
     return true; // obviously, potatos are always delicious
   }
@@ -41,10 +40,14 @@ public class Potato {
     }
   }
 
-  private static class Glados extends Potato {
-      public Glados()
-      {
+  private static class GLaDOS extends Potato {
+      public GLaDOS() {
           System.out.println("Oh hi, how are you holding up? BECAUSE I'M A POTATO... clap clap clap... oh good, my slow clap processor made it into this thing, at least we have that.");
+      }
+
+      @Override
+      public boolean isDelicious() {
+        return false; // robots are not delicious
       }
   }
 }
