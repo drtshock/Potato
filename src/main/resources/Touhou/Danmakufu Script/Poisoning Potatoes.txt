@@ -1,0 +1,90 @@
+#TouhouDanmakufu
+#Title [Poisoning Potatoes]
+#Text [Fifth Spell]
+#Player[FREE]
+#ScriptVersion [2]
+
+script_enemy_main {
+	let directory = GetCurrentScriptDirectory;
+    let texture = directory ~ "img\potatofest.png";
+	let cut = directory ~ "img\cutin.png";
+	let bgm = directory ~ "bgm\LightningBattle.mp3";
+	let ch = directory ~ "sfx\se_ch00.wav";
+	let tan = directory ~ "sfx\se_tan00_2.wav";
+	let tick = 0;
+	let x;
+	let y;
+    @Initialize {
+		LoadUserShotData(directory ~ "craftitems.txt");
+        SetLife(1000);
+		SetDamageRate(15, 0);
+		SetShotAutoDeleteClip(500, 500, 500, 500);
+		SetScore(4000000);
+        LoadGraphic(texture);
+        SetTexture(texture);
+        SetGraphicRect(0, 0, 37, 45);
+		LoadMusic(bgm);
+		PlayMusic(bgm);
+		LoadGraphic(cut);
+		LoadSE(ch);
+		LoadSE(tan);
+		SetInvincibility(240);
+		SetTimer(90);
+		CutIn(KOUMA, "Poisoning Potatoes", cut, 0, 0, 251, 417);
+		SetMovePosition01(GetCenterX, GetClipMinY + 120, 2.5);
+    }
+
+    @MainLoop {
+		if (OnBomb == false) {
+			SetCollisionA(GetX, GetY, 28);
+			SetCollisionB(GetX, GetY, 28);
+		}
+		
+		if (tick == 120) {
+			Concentration01(80);
+			PlaySE(ch);
+		}
+		
+		if (tick > 200) {
+			if (tick % 50 == 1) {
+				loop (50) {
+					let angle = rand(0, 360);
+					CreateShotA(1, GetX, GetY, 0);
+					SetShotDataA(1, 0, 4, angle, 0, 0.1, 4, 3);
+					SetShotDataA(1, 20, rand(1, 3), GetAngleToPlayer, rand(-3, 3), 0, 3, 5);
+					SetShotDataA(1, 40, NULL, NULL, 0, 0, 3, 5);
+					CreateShotA(2, GetX + cos(angle) * 80, GetY + sin(angle) * 80, 20);
+					SetShotDataA(2, 0, 0, 0, 0, 0, 0, GREEN04);
+					SetShotKillTime(2, 0);
+					FireShot(1);
+					FireShot(2);
+				}
+					
+				PlaySE(tan);
+			}
+			
+			if (tick % 200 == 0) {
+				SetMovePosition01(GetCenterX + rand(-100, 100), GetClipMinY + rand(50, 150), 1);
+			}
+		}
+		
+		tick = tick + 1;
+    }
+
+    @DrawLoop {
+		if (OnBomb == false) {
+			SetAlpha(255);
+		} else {
+			SetAlpha(128);
+		}
+		
+		DrawGraphic(GetX, GetY);
+    }
+
+    @Finalize {
+        DeleteGraphic(texture);
+		DeleteGraphic(cut);
+		DeleteSE(ch);
+		DeleteSE(tan);
+    }
+}
