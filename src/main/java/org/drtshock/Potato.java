@@ -17,7 +17,7 @@ public class Potato implements Tuber {
   }
 
   public boolean prepare() {
-    this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "broccoli", "ketchup");
+    this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup");
     return this.isDelicious();
   }
 
