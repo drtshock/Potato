@@ -15,7 +15,7 @@ public class Potato implements Tuber {
   }
 
   public boolean prepare() {
-    this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup");
+    this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "non-grated cheese");
     return this.isDelicious();
   }
 
@@ -27,7 +27,11 @@ public class Potato implements Tuber {
 
   @Override
   public boolean isDelicious() {
+    if (!pigsFly){
     return true; // obviously, potatos are always delicious
+    } else {
+      System.err.println("Fatal error! Pigs are flying, I repeat, pigs are flying.");
+    }
   }
 
   private class Condiment {
