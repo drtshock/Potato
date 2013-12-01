@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.drtshock</groupId>
   <artifactId>potato</artifactId>
-  <version>1.7.2</version>
+  <version>2.0.0</version>
   <name>Potato</name>
   <build>
     <plugins>
