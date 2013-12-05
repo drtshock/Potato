@@ -38,6 +38,11 @@ public class Potato implements Tuber {
   @Override
   public boolean isDelicious() {
     return true; // obviously, potatoes are always delicious
+
+  }
+  
+  public String tuberType() {
+      return "stem tuber"; // All potatoes are stem tubers
   }
 
   private class Condiment {
@@ -49,48 +54,6 @@ public class Potato implements Tuber {
 
     public String getName() {
       return this.name;
-    }
-  }
-
-  private static class GLaDOS extends Potato {
-      public GLaDOS() {
-          System.out.println("Oh hi, how are you holding up? BECAUSE I'M A POTATO... clap clap clap... oh good, my slow clap processor made it into this thing, at least we have that.");
-      }
-
-      @Override
-      public boolean isDelicious() {
-        return false; // robots are not delicious
-      }
-  }
-  
-  private static class AdirondackBluePotato extends Potato {
-    private AdirondackBluePotato() {
-      setColors(Color.BLUE, Color.BLUE);
-    }
-  }
-  
-  public static class AdirondackRedPotato extends Potato{
-    public AdirondackRedPotato() {
-      setColors(Color.RED, Color.RED);
-    }
-  }
-  
-  public static class AmandinePotato extends Potato{
-    public AmandinePotato() {
-      setColors(Color.YELLOW, Color.WHITE);
-    }
-  }
-  
-  public static class RangerRussetPotato extends Potato{
-    public RangerRussetPotato() {
-      setColors(new Color(100, 75, 40), //BROWN
-              Color.WHITE);
-    }
-  }
-  
-  public static class RussetBurbankPotato extends Potato{
-    public RussetBurbankPotato() {
-      setColors(Color.YELLOW, Color.WHITE);
     }
   }
 }
