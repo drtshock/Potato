@@ -29,6 +29,11 @@ public class Potato implements Tuber {
   public boolean isDelicious() {
     return true; // obviously, potatos are always delicious
   }
+  
+  @Override
+  public Tuber propagate() {
+  	return new Potato();
+  }
 
   private class Condiment {
     private final String name;
@@ -52,4 +57,5 @@ public class Potato implements Tuber {
         return false; // robots are not delicious
       }
   }
+
 }
