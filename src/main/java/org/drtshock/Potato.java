@@ -1,79 +1,75 @@
 package org.drtshock;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Potato implements Tuber {
 
-  private final List<Condiment> condiments = new ArrayList<Condiment>();
+    private final List<Condiment> condiments = new ArrayList<Condiment>();
 
-  public static void main(String[] args) {
-    Potato potato = new Potato();
-    GLaDOS glados = new GLaDOS();
-    if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
-    else System.err.println("Fatal error! How could potato not be delicious?");
-  }
-
-  public boolean prepare() {
-    this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
-    return this.isDelicious();
-  }
-
-  public void addCondiments(String... names) {
-    synchronized (condiments) {
-      for (String condimentName : names) condiments.add(new Condiment(condimentName));
-    }
-  }
-  
-  public boolean isPutintoOven {
-	  URL url = new URL("https://www.google.com/");
-	  HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-	  connection.setRequestMethod("GET");
-	  connection.connect();
-
-	  int inOven = connection.getResponseCode();
-	  if (inOven == 200) return true; // you need to put into an oven before bake it.
-	  else return false;
-  }
-
-  public boolean isBaked() {
-	  if(this.isPutintoOven) return true;
-	  else return false;
-  }
-  
-  @Override
-  public boolean isDelicious() {
-    if(isBaked) return true; // this way we could move on to our condiments. =D
-    else return false; // you don't eat a raw potato, don't you?
-  }
-  
-  @Override
-  public Tuber propagate() {
-  	return new Potato();
-  }
-
-  private class Condiment {
-    private final String name;
-
-    public Condiment(String name) {
-      this.name = name;
+    public static void main(String[] args) {
+        final Potato potato = new Potato();
+        if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
+        else System.err.println("Fatal error! How could potato not be delicious?");
     }
 
-    public String getName() {
-      return this.name;
+    public boolean prepare() {
+        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
+        this.listCondiments();
+        return this.isDelicious();
     }
-  }
 
-  private static class GLaDOS extends Potato {
-      public GLaDOS() {
-          System.out.println("Oh hi, how are you holding up? BECAUSE I'M A POTATO... clap clap clap... oh good, my slow clap processor made it into this thing, at least we have that.");
-      }
+    public void addCondiments(String... names) {
+        synchronized (this.condiments) {
+            for (String condimentName : names) this.condiments.add(new Condiment(condimentName));
+        }
+    }
 
-      @Override
-      public boolean isDelicious() {
-        return false; // robots are not delicious
-      }
-  }
+    public void listCondiments() {
+        for (Condiment condiment : this.condiments) {
+            System.out.println(condiment.getName());
+        }
+    }
+
+    public boolean isPutIntoOven() {
+        try {
+            final URL url = new URL("https://www.google.com/");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int inOven = connection.getResponseCode();
+            return inOven == 200;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean isBaked() {
+        return this.isPutIntoOven();
+    }
+
+    public boolean isDelicious() {
+        return this.isBaked();
+    }
+
+    public Tuber propagate() {
+        return new Potato();
+    }
+
+    private class Condiment {
+        private final String name;
+
+        public Condiment(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+    }
 
 }
