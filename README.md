@@ -5,7 +5,7 @@ If you fork this then you can say you forked a potato.
 
 ![potato](http://o.snw.io/8yCD)
 
-Forking potatoes is an ancient and well-manered tradition.
+Forking potatoes is an ancient and well-mannered tradition.
 
 The potato first appeared in Peru about ten thousand years ago. The potato was an early food source, and likely a highly traded good in early South America. Having been traded for several thousand years, and enduring much artifical selection, the explorers of the sixteenth and seventeenth century brought the potato back to Europe, where the crop grew. Originally thought to be poisonous and evil, the crop didn't become a major food for another hundred years.
 
