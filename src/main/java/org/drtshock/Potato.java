@@ -12,14 +12,19 @@ public class Potato implements Tuber {
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
-        if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
-        else System.err.println("Fatal error! How could potato not be delicious?");
+        try {
+        	potato.prepare();
+        	System.out.println("Of course potato is prepared and delicious.");
+        } catch (NotDeliciousException e) {
+        	System.err.println("Fatal error! How could potato not be delicious?");
+        	return;
+        }
     }
 
-    public boolean prepare() {
+    public void prepare() throws NotDeliciousException {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
         this.listCondiments();
-        return this.isDelicious();
+        if(!this.isDelicious()) throw NotDeliciousException();
     }
 
     public void addCondiments(String... names) {
