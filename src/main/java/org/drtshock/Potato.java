@@ -29,7 +29,7 @@ public class Potato implements Tuber {
 
     public void addCondiments(String... names) {
         synchronized (this.condiments) {
-            for (String condimentName : names) this.condiments.add(new Condiment(condimentName));
+            for (String condimentName : names) this.condiments.add(new Condiment(condimentName, this));
         }
     }
 
@@ -58,7 +58,14 @@ public class Potato implements Tuber {
     }
 
     public boolean isDelicious() {
-        return this.isBaked();
+        return this.isBaked() && areCondimentsDelicious();
+    }
+    
+    public boolean areCondimentsDelicious() {
+        for(Condiment condiment : condiments)
+            if(!condiment.isDelicious())
+                return false;
+        return true;
     }
 
     public Tuber propagate() {
@@ -67,13 +74,19 @@ public class Potato implements Tuber {
 
     private class Condiment {
         private final String name;
+        private final Potato potato;
 
-        public Condiment(String name) {
+        public Condiment(String name, Potato potato) {
             this.name = name;
+            this.potato = potato;
         }
 
         public String getName() {
             return this.name;
+        }
+        
+        public boolean isDelicious() {
+            return potato instanceof Potato;
         }
     }
 
