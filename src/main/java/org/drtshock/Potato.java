@@ -27,9 +27,13 @@ public class Potato implements Tuber {
         if(!this.isDelicious()) throw NotDeliciousException();
     }
 
-    public void addCondiments(String... names) {
+    public void addCondiments(String... names) throws NotDeliciousException {
         synchronized (this.condiments) {
-            for (String condimentName : names) this.condiments.add(new Condiment(condimentName));
+            for (String condimentName : names) {
+                Condiment condiment = new Condiment(condimentName, true);
+                if(!condiment.isDelicious()) throw new NotDeliciousException();
+                this.condiments.add(condiment);
+            }
         }
     }
 
@@ -67,9 +71,15 @@ public class Potato implements Tuber {
 
     private class Condiment {
         private final String name;
+        private final boolean delicious;
 
-        public Condiment(String name) {
+        public Condiment(String name, boolean delicious) {
             this.name = name;
+            this.delicious = delicious;
+        }
+        
+        public boolean isDelicious() {
+            return delicious;
         }
 
         public String getName() {
