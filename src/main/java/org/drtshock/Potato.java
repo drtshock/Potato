@@ -41,7 +41,7 @@ public class Potato implements Tuber {
 
     public boolean isPutIntoOven() {
         try {
-            final URL url = new URL("https://www.google.com/search?q=potato");
+            final URL url = new URL("http://potato.jdf2.org/");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
