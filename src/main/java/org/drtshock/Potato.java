@@ -17,7 +17,6 @@ public class Potato implements Tuber {
         	System.out.println("Of course potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
         	System.err.println("Fatal error! How could potato not be delicious?");
-        	return;
         }
     }
 
@@ -57,10 +56,12 @@ public class Potato implements Tuber {
         return this.isPutIntoOven();
     }
 
+    @Override
     public boolean isDelicious() {
         return this.isBaked();
     }
 
+    @Override
     public Tuber propagate() {
         return new Potato();
     }
