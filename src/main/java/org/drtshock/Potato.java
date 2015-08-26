@@ -28,8 +28,8 @@ public class Potato implements Tuber {
     }
 
     public void addCondiments(String... names) {
-        synchronized (this.condiments) {
-            for (String condimentName : names) this.condiments.add(new Condiment(condimentName));
+        for (String condimentName : names) {
+            this.condiments.add(new Condiment(condimentName));
         }
     }
 
