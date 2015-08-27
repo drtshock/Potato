@@ -12,19 +12,24 @@ public class Potato implements Tuber {
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
-        if (potato.prepare()) System.out.println("Of course potato is prepared and delicious.");
-        else System.err.println("Fatal error! How could potato not be delicious?");
+        try {
+        	potato.prepare();
+        	System.out.println("Of course potato is prepared and delicious.");
+        } catch (NotDeliciousException e) {
+        	System.err.println("Fatal error! How could potato not be delicious?");
+        	return;
+        }
     }
 
-    public boolean prepare() {
+    public void prepare() throws NotDeliciousException {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
         this.listCondiments();
-        return this.isDelicious();
+        if(!this.isDelicious()) throw new NotDeliciousException();
     }
 
     public void addCondiments(String... names) {
-        synchronized (this.condiments) {
-            for (String condimentName : names) this.condiments.add(new Condiment(condimentName));
+        for (String condimentName : names) {
+            this.condiments.add(new Condiment(condimentName));
         }
     }
 
@@ -36,7 +41,7 @@ public class Potato implements Tuber {
 
     public boolean isPutIntoOven() {
         try {
-            final URL url = new URL("https://www.google.com/");
+            final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
