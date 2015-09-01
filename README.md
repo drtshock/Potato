@@ -23,6 +23,6 @@ If you have forked the potato and are looking to submit a pull request, please a
 - Make sure that your code compiles and runs, if you are changing code.
 - Please format your code.
 - Our potato is a mainstream potato; it doesn't enjoy being full of obscure code/references (not a hipster potato).
-- Please squash your PRs (git rebase).
+- Please "mash your Potatoes" (Squash your PRs with interactive rebase).
 - If a comment is made on your PR, inquiring for more info, a reply is expected within a week. The request will be closed if not.
 - To stress: **no non-potato-related items**.
