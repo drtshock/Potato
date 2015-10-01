@@ -57,10 +57,12 @@ public class Potato implements Tuber {
         return this.isPutIntoOven();
     }
 
+    @Override
     public boolean isDelicious() {
         return this.isBaked();
     }
 
+    @Override
     public Tuber propagate() {
         return new Potato();
     }
