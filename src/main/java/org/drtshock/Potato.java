@@ -22,7 +22,7 @@ public class Potato implements Tuber {
     }
 
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
+        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco", "pepperoni", "sausage");
         this.listCondiments();
         if(!this.isDelicious()) throw new NotDeliciousException();
     }
@@ -53,6 +53,21 @@ public class Potato implements Tuber {
         }
     }
 
+    public boolean isOldPotato() {
+        try {
+            final URL url = new URL("https://www.google.com/search?q=old+potato");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.connect();
+            int oldPotato = connection.getResponseCode();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+
     public boolean isBaked() {
         return this.isPutIntoOven();
     }
@@ -61,6 +76,7 @@ public class Potato implements Tuber {
     public boolean isDelicious() {
         return this.isBaked();
     }
+
 
     @Override
     public Tuber propagate() {
