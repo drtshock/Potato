@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A delicious tuber that is eaten by peoples all over the world.
+ * A delicious tuber that is eaten by various peoples all over the world.
  */
 public class Potato implements Tuber {
 
