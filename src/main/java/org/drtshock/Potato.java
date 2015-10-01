@@ -81,7 +81,7 @@ public class Potato implements Tuber {
             int inOven = connection.getResponseCode();
             return inOven == 200;
         } catch (IOException ex) {
-            throw new OvenException();
+            throw new OvenException(ex);
         }
     }
 
