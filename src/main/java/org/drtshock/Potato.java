@@ -22,7 +22,7 @@ public class Potato implements Tuber {
     }
 
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco", "pepporoni", "sausage");
+        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco", "pepperoni", "sausage");
         this.listCondiments();
         if(!this.isDelicious()) throw new NotDeliciousException();
     }
@@ -66,7 +66,6 @@ public class Potato implements Tuber {
             return false;
         }
     }
-
 
 
     public boolean isBaked() {
