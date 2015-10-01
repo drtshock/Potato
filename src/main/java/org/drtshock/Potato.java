@@ -49,9 +49,11 @@ public class Potato implements Tuber {
      *
      * @param names Names of the condiments to add
      */
-    public void addCondiments(String... names) {
+    public void addCondiments(String... names) throws NotDeliciousException {
         for (String condimentName : names) {
-            this.getCondiments().add(new Condiment(condimentName));
+            Condiment condiment = new Condiment(condimentName, true);
+            if (!condiment.isDelicious()) throw new NotDeliciousException();
+            this.getCondiments().add(condiment);
         }
     }
 
@@ -119,9 +121,20 @@ public class Potato implements Tuber {
      */
     private class Condiment {
         private final String name;
+        private final boolean delicious;
 
-        public Condiment(String name) {
+        public Condiment(String name, boolean delicious) {
             this.name = name;
+            this.delicious = delicious;
+        }
+
+        /**
+         * Returns if this condiment is delicious or not.
+         *
+         * @return true if delicious, false if otherwise
+         */
+        public boolean isDelicious() {
+            return this.delicious;
         }
 
         /**
