@@ -70,8 +70,9 @@ public class Potato implements Tuber {
      * Checks if the potato is put into the oven.
      *
      * @return true if potato is in the oven, false if otherwise
+     * @throws OvenException if the oven is experiencing internal exceptions
      */
-    public boolean isPutIntoOven() {
+    public boolean isPutIntoOven() throws OvenException {
         try {
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -80,8 +81,7 @@ public class Potato implements Tuber {
             int inOven = connection.getResponseCode();
             return inOven == 200;
         } catch (IOException ex) {
-            ex.printStackTrace();
-            return false;
+            throw new OvenException();
         }
     }
 
@@ -91,7 +91,11 @@ public class Potato implements Tuber {
      * @return true if this potato is baked, false if otherwise
      */
     public boolean isBaked() {
-        return this.isPutIntoOven();
+        try {
+            return this.isPutIntoOven();
+        } catch (OvenException e) {
+            return false; //If the oven is malfunctioning, then the potato cannot be cooked, and therefore not baked.
+        }
     }
 
     /**
