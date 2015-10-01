@@ -60,11 +60,11 @@ public class Potato implements Tuber {
             connection.setRequestMethod("GET");
             connection.connect();
             int oldPotato = connection.getResponseCode();
-            return oldPotato() == true;
         } catch (IOException ex) {
             ex.printStackTrace();
             return false;
         }
+        return false;
     }
 
 
@@ -77,9 +77,6 @@ public class Potato implements Tuber {
         return this.isBaked();
     }
 
-    public boolean oldPotato() {
-        return this.isOldPotato();
-    }
 
     @Override
     public Tuber propagate() {
