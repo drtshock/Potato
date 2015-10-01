@@ -16,10 +16,10 @@ public class Potato implements Tuber {
     public static void main(String[] args) {
         final Potato potato = new Potato();
         try {
-        	potato.prepare();
-        	System.out.println("Of course potato is prepared and delicious.");
+            potato.prepare();
+            System.out.println("Of course potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
-        	System.err.println("Fatal error! How could potato not be delicious?");
+            System.err.println("Fatal error! How could potato not be delicious?");
         }
     }
 
