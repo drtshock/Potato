@@ -24,6 +24,15 @@ public class Potato implements Tuber {
     }
 
     /**
+     * Gets the condiments on this potato.
+     *
+     * @return Mutable list of condiments
+     */
+    public List<Condiment> getCondiments() {
+        return this.condiments;
+    }
+
+    /**
      * Prepares the potato for consumption. Adds various condiments and prints them to stdout. Ensures that the potato
      * is delicious. If it is not, a {@link NotDeliciousException} is thrown.
      *
@@ -42,15 +51,17 @@ public class Potato implements Tuber {
      */
     public void addCondiments(String... names) {
         for (String condimentName : names) {
-            this.condiments.add(new Condiment(condimentName));
+            this.getCondiments().add(new Condiment(condimentName));
         }
     }
 
     /**
      * Prints the names of the condiments on this potato to stdout.
+     *
+     * @see #getCondiments()
      */
     public void listCondiments() {
-        for (Condiment condiment : this.condiments) {
+        for (Condiment condiment : this.getCondiments()) {
             System.out.println(condiment.getName());
         }
     }
