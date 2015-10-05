@@ -41,7 +41,8 @@ public class Potato implements Tuber {
     public void prepare() throws NotDeliciousException {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException();
+        if(!isFried())
+            if (!this.isDelicious()) throw new NotDeliciousException();
     }
 
     /**
@@ -99,6 +100,29 @@ public class Potato implements Tuber {
             return false;
         }
     }
+
+
+    /**
+     * Checks if this potato is fried. Returns the result of memory check.
+     * If there is less than 10 bytes free in the heap it returns true.
+     *
+     * @return true if this potato is fried, false if otherwise
+     */
+     public boolean isFried() {
+            // Get current size of heap in bytes
+            long heapSize = Runtime.getRuntime().totalMemory();
+
+            // Get maximum size of heap in bytes. The heap cannot grow beyond this size.
+            // Any attempt will result in an OutOfMemoryException.
+            long heapMaxSize = Runtime.getRuntime().maxMemory();
+
+            // Get amount of free memory within the heap in bytes. This size will increase
+            // after garbage collection and decrease as new objects are created.
+            long heapFreeSize = Runtime.getRuntime().freeMemory();
+            if(heapFreeSize < 10 ) return true;
+            return false;
+    }
+
 
     /**
      * Checks if this potato is delicious. Returns the result of {@link #isBaked()}.
