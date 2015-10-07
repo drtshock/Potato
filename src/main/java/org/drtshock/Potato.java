@@ -20,6 +20,7 @@ public class Potato implements Tuber {
             System.out.println("Of course potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
             System.err.println("Fatal error! How could potato not be delicious?");
+
         }
     }
 
@@ -39,7 +40,7 @@ public class Potato implements Tuber {
      * @throws NotDeliciousException If the potato is not delicious
      */
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
+        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco", "mayo", "mustard");
         this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException();
     }
@@ -87,6 +88,9 @@ public class Potato implements Tuber {
         }
     }
 
+    public void isAncientPotato() {
+        System.out.print("You can't eat AncientPotato, you will get sick!");
+    }
     /**
      * Checks if this potato is baked. Returns the result of {@link #isPutIntoOven()}.
      *
