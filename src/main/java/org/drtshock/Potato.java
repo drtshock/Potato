@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
@@ -13,10 +14,35 @@ public class Potato implements Tuber {
 
     private final List<Condiment> condiments = new ArrayList<Condiment>();
 
+    private static final String[] DEFAULT_CONDIMENTS = {
+        "sour cream",
+        "chives",
+        "butter",
+        "crumbled bacon",
+        "grated cheese",
+        "ketchup",
+        "salt",
+        "tabasco"
+    };
+
     public static void main(String[] args) {
         final Potato potato = new Potato();
+        String[] condiments = DEFAULT_CONDIMENTS;
+        for (String arg : args) {
+            if ("-i".equals(arg)) {
+                List<String> tempCondiments = new ArrayList<String>();
+                System.out.print("What condiment would you like to add? (type 'done' to prepare your potato): ");
+                Scanner scanner = new Scanner(System.in);
+                String condiment;
+                while (!"done".equals(condiment = scanner.nextLine())) {
+                    tempCondiments.add(condiment);
+                    System.out.print("Anything else? (type 'done' to prepare your potato): ");
+                }
+                condiments = tempCondiments.toArray(new String[tempCondiments.size()]);
+            }
+        }
         try {
-            potato.prepare();
+            potato.prepare(condiments);
             System.out.println("Of course potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
             System.err.println("Fatal error! How could potato not be delicious?");
@@ -36,10 +62,11 @@ public class Potato implements Tuber {
      * Prepares the potato for consumption. Adds various condiments and prints them to stdout. Ensures that the potato
      * is delicious. If it is not, a {@link NotDeliciousException} is thrown.
      *
+     * @param condiments Condiments to add to the potato
      * @throws NotDeliciousException If the potato is not delicious
      */
-    public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
+    public void prepare(String[] condiments) throws NotDeliciousException {
+        this.addCondiments(condiments);
         this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException();
     }
