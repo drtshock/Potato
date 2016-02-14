@@ -6,6 +6,8 @@ package org.drtshock;
 public enum NotDeliciousReason {
     
     NOT_BAKED,
-    NOT_DELICIOUS_CONDIMENT
+    NOT_DELICIOUS_CONDIMENT,
+    EXCESSIVELY_CHUNKY,
+    PLAIN
 
 }
