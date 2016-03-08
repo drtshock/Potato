@@ -15,7 +15,7 @@ By the time potatoes were introduced into Europe, the fork was already prevelant
 
 A lack of equal rights for potatoes led to a disease spreading between them and endangered the tradition of forking the potato in Ireland. Fortunately, other areas of the world maintained their healthy, diverse potatoes, and so the tradition lives on.
 
-You too can continue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork."
+You too can continue this tradition of forking potatoes in the modern age by clicking the button above labeled "fork".
 
 Pull Requests
 -------------
