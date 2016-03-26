@@ -22,8 +22,7 @@ public class Potato implements Tuber {
             } catch (NotDeliciousException e) {
                 System.err.println("Fatal error! How could potato not be delicious?");
             }
-        } catch (OutOfMemoryException e)
-        {
+        } catch (OutOfMemoryException e) {
             System.err.println("Oh no! There is too many potatoes!");
         }
     }
