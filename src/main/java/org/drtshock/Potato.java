@@ -100,6 +100,35 @@ public class Potato implements Tuber {
             return false;
         }
     }
+	
+	/**
+     * Checks if this potato is cooked. Returns the result of {@link #hasBeenBoiledInWater()}.
+     *
+     * @return true if this potato is baked, false if otherwise
+     */
+    public boolean isCooked() {
+		try{
+			return this.hasBeenBoiledInWater();
+		} catch (PotatoBurntException e){
+			return false;
+		}
+    }
+	
+	/**
+     * Checks if the potato is succesfully boiled at the right amount of degrees.
+     *
+     * @return true if the potato has succesfully been boiled, false if otherwise
+     * @throws PotatoBurntException if the potato has been burned during the process of cooking
+     */
+	public boolean hasBeenBoiledInWater() throws PotatoBurntException{
+		int waterDegrees = (int)(Math.random()*200);
+		if(waterDegrees<70){
+			return false;
+		} else if(waterDegrees>130){
+			throw new PotatoBurntException(waterDegrees);
+		}
+		return true;
+	}
 
     /**
      * Checks if this potato is delicious. Returns the result of {@link #isBaked()}.
@@ -108,7 +137,7 @@ public class Potato implements Tuber {
      */
     @Override
     public boolean isDelicious() {
-        return this.isBaked();
+        return this.isBaked() || this.isBoiled();
     }
 
     /**
