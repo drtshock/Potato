@@ -137,7 +137,7 @@ public class Potato implements Tuber {
      */
     @Override
     public boolean isDelicious() {
-        return this.isBaked() || this.isBoiled();
+        return this.isBaked() || this.isCooked();
     }
 
     /**
