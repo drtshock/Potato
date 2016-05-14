@@ -1,7 +1,7 @@
 Potato
 ======
 
-If you fork this then you can say you forked a potato.
+If you fork this, then you can say you forked a potato.
 
 ![potato](http://i.imgur.com/dRnvRZZ.jpg)
 
