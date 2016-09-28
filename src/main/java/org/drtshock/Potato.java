@@ -14,7 +14,7 @@ public class Potato implements Tuber {
     private final List<Condiment> condiments = new ArrayList<Condiment>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato();
+        Potato potato = new Potato();
         try {
             potato.prepare();
             System.out.println("Of course potato is prepared and delicious.");
@@ -76,7 +76,7 @@ public class Potato implements Tuber {
      */
     public boolean isPutIntoOven() throws OvenException {
         try {
-            final URL url = new URL("https://www.google.com/search?q=potato");
+            URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent", "Potato");
