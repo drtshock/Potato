@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Potato implements Tuber {
 
-    private final List<Condiment> condiments = new ArrayList<Condiment>();
+    private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
