@@ -17,9 +17,9 @@ public class Potato implements Tuber {
         final Potato potato = new Potato();
         try {
             potato.prepare();
-            System.out.println("Of course potato is prepared and delicious.");
+            System.out.println("Of course Potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could potato not be delicious?");
+            System.err.println("Fatal error! How could Potato not be delicious?");
         }
     }
 
