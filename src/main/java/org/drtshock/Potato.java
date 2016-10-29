@@ -14,12 +14,16 @@ public class Potato implements Tuber {
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato();
         try {
-            potato.prepare();
-            System.out.println("Of course potato is prepared and delicious.");
-        } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could potato not be delicious?");
+            final Potato potato = new Potato();
+            try {
+                potato.prepare();
+                System.out.println("Of course potato is prepared and delicious.");
+            } catch (NotDeliciousException e) {
+                System.err.println("Fatal error! How could potato not be delicious?");
+            }
+        } catch (OutOfMemoryException e) {
+            System.err.println("Oh no! There is too many potatoes!");
         }
     }
 
