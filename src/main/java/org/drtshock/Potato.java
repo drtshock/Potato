@@ -80,7 +80,7 @@ public class Potato implements Tuber {
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.addRequestProperty("User-Agent", "Potato");
+            connection.addRequestProperty("User-Agent", "Potato/1.7.5");
             connection.connect();
             int inOven = connection.getResponseCode();
             return inOven == 200;
