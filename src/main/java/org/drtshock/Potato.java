@@ -165,7 +165,7 @@ public class Potato implements Tuber {
         }
 
         /**
-         * Returns if this condiment is delicious or not.
+         * Returns if this condiment is delicious or contains le DANK MEMES.
          *
          * @return true if delicious, false if otherwise
          */
