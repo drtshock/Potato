@@ -1,0 +1,46 @@
+script_enemy_main {
+	let directory = GetCurrentScriptDirectory;
+	let texture = directory ~ "img\saffcon.png";
+	let tick = 0;
+    let rotation = rand(1, 360);
+	let accel = rand(1, 360);
+	@Initialize {
+		SetLife(1);
+        LoadGraphic(texture);
+        SetTexture(texture);
+        SetGraphicRect(0, 0, 31, 45);
+		SetMovePosition01(GetCenterX - 50, GetClipMinY + 100, 2.5);
+	}
+	
+	@MainLoop {
+		if (tick == 120) {
+			Concentration01(80);
+		}
+		
+		if (tick > 200) {
+			if (tick % 4 == 0) {
+				CreateShotA(3, GetX + cos(accel) * 100, GetY + sin(accel) * 100, 50);
+				SetShotDataA(3, 0, 0, rotation, 0, 0.1, 2.5, 3);
+				FireShot(3);
+				CreateShotA(4, GetX + cos(accel + 180) * 100, GetY + sin(accel + 180) * 100, 50);
+				SetShotDataA(4, 0, 0, rotation + 180, 0, 0.1, 2.5, 3);
+				FireShot(4);
+				rotation = rotation + 9;
+				accel = accel + 11;
+			}
+			
+			if (tick % 400 == 200) {
+					SetMovePosition01(GetCenterX + rand(-100, 100), GetClipMinY + rand(50, 100), 2);
+				}
+		}
+		
+		tick++;
+	}
+	
+	@DrawLoop {
+		DrawGraphic(GetX, GetY);
+	}
+	
+	@Finalize {
+	}
+}

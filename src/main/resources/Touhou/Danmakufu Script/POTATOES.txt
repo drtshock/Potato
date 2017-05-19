@@ -1,0 +1,13 @@
+#TouhouDanmakufu[Plural]
+#Title[POTATOES]
+#Player[FREE]
+#ScriptVersion[2]
+
+#ScriptPathData
+#ScriptPath[.\Poisoning Potatoes.txt]
+#ScriptPath[.\Baking Potatoes.txt]
+#ScriptPath[.\Potato Purification.txt]
+#ScriptNextStep
+#ScriptPath[.\Potato Festival.txt]
+
+#EndScriptPathData

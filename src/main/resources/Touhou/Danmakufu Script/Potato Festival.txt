@@ -1,0 +1,133 @@
+#TouhouDanmakufu
+#Title [Potato Festival]
+#Text [Ninth Spell]
+#Player[FREE]
+#ScriptVersion [2]
+
+script_enemy_main {
+	let directory = GetCurrentScriptDirectory;
+    let texture = directory ~ "img\potatofest.png";
+	let cut = directory ~ "img\cutin.png";
+	let bgm = directory ~ "bgm\LightningBattle.mp3";
+	let ch = directory ~ "sfx\se_ch00.wav";
+	let tan = directory ~ "sfx\se_tan00_2.wav";
+	let kira = directory ~ "sfx\se_kira00.wav";
+    let rotation = rand(1, 360);
+	let tick = 0;
+	let accel = rand(1, 360);
+    @Initialize {
+		LoadUserShotData(directory ~ "craftitems.txt");
+        SetLife(1000);
+		SetDamageRate(0, 0);
+		SetShotAutoDeleteClip(500, 500, 500, 500);
+		SetScore(4000000);
+        LoadGraphic(texture);
+        SetTexture(texture);
+        SetGraphicRect(0, 0, 37, 45);
+		LoadMusic(bgm);
+		PlayMusic(bgm);
+		LoadGraphic(cut);
+		LoadSE(ch);
+		LoadSE(tan);
+		LoadSE(kira);
+		SetInvincibility(240);
+		SetTimer(90);
+		SetDurableSpellCard;
+		CutIn(KOUMA, "Potato Festival", cut, 0, 0, 251, 417);
+		SetMovePosition01(GetCenterX + 50, GetClipMinY + 100, 2.5);
+		CreateEnemyFromFile(directory ~ "Saffcon Familiar.txt", GetX, GetY, 0, 0, 0);
+    }
+
+    @MainLoop {
+		if (tick == 120) {
+			Concentration01(80);
+			PlaySE(ch);
+		}
+		
+		if (tick > 200) {
+			if (tick == 720) {
+				Concentration01(80);
+				PlaySE(ch);
+			}
+			else if (tick > 800) {
+				if (tick == 3720) {
+					Concentration01(80);
+					PlaySE(ch);
+				}
+				
+				if (tick > 3800) {
+					if (tick % 20 == 1) {
+						let x = rand(GetClipMinX, GetClipMaxX);
+						let y = rand(GetClipMinY, GetCenterY);
+						let offset = atan2(GetPlayerY - y, GetPlayerX - x);
+						
+						ascent(angle in 0 .. 360) {
+							if (angle % 20 == 0) {
+								CreateShotA(1, x, y, 50);
+								SetShotDataA(1, 0, 0, angle + offset, 0, 0.3, 1.2, 4);
+								SetShotDataA(1, 50 + angle/20, 3, angle + offset + 160, 0, 0, 100, 4);
+								FireShot(1);
+								CreateShotA(2, x, y, 50);
+								SetShotDataA(2, 0, 0, angle + offset + 180, 0, 0.5, 1, 5);
+								SetShotDataA(2, 50 + angle/20, 2, angle + offset + 20, 0, 0, 100, 5);
+								FireShot(2);
+							}
+						}
+						
+						PlaySE(kira);
+					}
+				} else if (tick % 40 == 1) {
+					let x = rand(GetClipMinX, GetClipMaxX);
+					let y = rand(GetClipMinY, GetCenterY);
+					let offset = atan2(GetPlayerY - y, GetPlayerX - x);
+					ascent(angle in 0 .. 360) {
+						if (angle % 20 == 0) {
+							CreateShotA(1, x, y, 50);
+							SetShotDataA(1, 0, 0, angle + offset, 0, 0.3, 1.2, 4);
+							SetShotDataA(1, 50 + angle/20, 3, angle + offset + 160, 0, 0, 100, 4);
+							FireShot(1);
+							CreateShotA(2, x, y, 50);
+							SetShotDataA(2, 0, 0, angle + offset + 180, 0, 0.5, 1, 5);
+							SetShotDataA(2, 50 + angle/20, 2, angle + offset + 20, 0, 0, 100, 5);
+							FireShot(2);
+						}
+					}
+					
+					PlaySE(kira);
+				}
+			}
+			
+			if (tick % 4 == 0) {
+				CreateShotA(3, GetX + cos(accel) * 100, GetY + sin(accel) * 100, 50);
+				SetShotDataA(3, 0, 0, rotation, 0, 0.1, 3, 3);
+				FireShot(3);
+				CreateShotA(4, GetX + cos(accel + 180) * 100, GetY + sin(accel + 180) * 100, 50);
+				SetShotDataA(4, 0, 0, rotation + 180, 0, 0.1, 3, 3);
+				FireShot(4);
+				rotation = rotation + 11;
+				accel = accel + 9;
+				PlaySE(tan);
+			}
+		
+			if (tick % 400 == 0) {
+				SetMovePosition01(GetCenterX + rand(-100, 100), GetClipMinY + rand(50, 100), 2);
+			}
+		}
+		
+		tick = tick + 1;
+		
+		yield;
+    }
+
+    @DrawLoop {
+		DrawGraphic(GetX, GetY);
+    }
+
+    @Finalize {
+        DeleteGraphic(texture);
+		DeleteGraphic(cut);
+		DeleteSE(ch);
+		DeleteSE(tan);
+		DeleteSE(kira);
+    }
+}

@@ -1,0 +1,130 @@
+#TouhouDanmakufu
+#Title [Baking Potatoes]
+#Text [Eighth Spell]
+#Player[FREE]
+#ScriptVersion [2]
+
+script_enemy_main {
+	let directory = GetCurrentScriptDirectory;
+    let texture = directory ~ "img\potatofest.png";
+	let cut = directory ~ "img\cutin.png";
+	let bgm = directory ~ "bgm\LightningBattle.mp3";
+	let ch = directory ~ "sfx\se_ch00.wav";
+	let tan = directory ~ "sfx\se_tan00_2.wav";
+	let kira = directory ~ "sfx\se_kira00.wav";
+	let tick = 0;
+	let x;
+	let y;
+    @Initialize {
+		LoadUserShotData(directory ~ "craftitems.txt");
+        SetLife(1000);
+		SetDamageRate(15, 0);
+		SetShotAutoDeleteClip(64, 64, 64, 64);
+		SetScore(4000000);
+        LoadGraphic(texture);
+        SetTexture(texture);
+        SetGraphicRect(0, 0, 37, 45);
+		LoadMusic(bgm);
+		PlayMusic(bgm);
+		LoadGraphic(cut);
+		LoadSE(ch);
+		LoadSE(tan);
+		LoadSE(kira);
+		SetInvincibility(240);
+		SetTimer(90);
+		CutIn(KOUMA, "Baking Potatoes", cut, 0, 0, 251, 417);
+		SetMovePosition01(GetCenterX, GetClipMinY + 120, 2.5);
+    }
+
+    @MainLoop {
+		if (OnBomb == false) {
+			SetCollisionA(GetX, GetY, 28);
+			SetCollisionB(GetX, GetY, 28);
+		}
+		
+		if (tick == 120) {
+			Concentration01(80);
+			PlaySE(ch);
+		}
+		
+		if (tick > 200) {
+			if (tick % 50 == 1) {
+				fire;
+			}
+			if (tick % 200 == 0) {
+				SetMovePosition01(GetCenterX + rand(-100, 100), GetClipMinY + rand(50, 150), 1);
+			}
+		}
+		
+		tick = tick + 1;
+		
+		yield;
+    }
+
+    @DrawLoop {
+		if (OnBomb == false) {
+			SetAlpha(255);
+		} else {
+			SetAlpha(128);
+		}
+		
+		DrawGraphic(GetX, GetY);
+    }
+
+    @Finalize {
+        DeleteGraphic(texture);
+		DeleteGraphic(cut);
+		DeleteSE(ch);
+		DeleteSE(tan);
+		DeleteSE(kira);
+    }
+	
+	task fire {
+		let angle = rand(0, 360);
+		
+		ascent (x in 0 .. 24) {
+			shoot (x * 15 + angle, x/10 + 1);
+			yield;
+		}
+	}
+	
+	task shoot (angle, speed) {
+		let obj = Obj_Create(OBJ_SHOT);
+			
+		Obj_SetPosition(obj, GetX, GetY);
+		Obj_SetSpeed(obj, speed);
+		Obj_SetAngle(obj, angle);
+		ObjShot_SetGraphic(obj, 3);
+		ObjShot_SetDelay(obj, 20);
+		PlaySE(tan);
+		
+		while(!Obj_BeDeleted(obj)) {
+			if(Obj_GetY(obj) < GetClipMinY){
+				PlaySE(kira);
+				CreateShot01(Obj_GetX(obj), Obj_GetY(obj), 1.2, 90, 4, 30);
+				Obj_Delete(obj);
+			}
+			
+			if(Obj_GetY(obj) > GetClipMaxY){
+				PlaySE(kira);
+				CreateShot01(Obj_GetX(obj), Obj_GetY(obj), 1.2, 270, 4, 30);
+				Obj_Delete(obj);
+			}
+			
+			
+			if(Obj_GetX(obj) > GetClipMaxX){
+				PlaySE(kira);
+				CreateShot01(Obj_GetX(obj), Obj_GetY(obj), 1.2, 180, 4, 30);
+				Obj_Delete(obj);
+			}
+			
+			if(Obj_GetX(obj) < GetClipMinX){
+				PlaySE(kira);
+				CreateShot01(Obj_GetX(obj), Obj_GetY(obj), 1.2, 0, 4, 30);
+				Obj_Delete(obj);
+			}
+			
+			yield;
+		}
+	}
+}
