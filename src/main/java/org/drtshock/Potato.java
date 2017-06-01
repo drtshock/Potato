@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class Potato implements Tuber {
 
-    private final List<Condiment> condiments = new ArrayList<Condiment>();
+    private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
         try {
             potato.prepare();
-            System.out.println("Of course potato is prepared and delicious.");
+            System.out.println("Of course Potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could potato not be delicious?");
+            System.err.println("Fatal error! How could Potato not be delicious?");
         }
     }
 
@@ -39,9 +39,10 @@ public class Potato implements Tuber {
      * @throws NotDeliciousException If the potato is not delicious
      */
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "salt", "tabasco");
+        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
+                "salt", "tabasco", "tomatoes");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException();
+        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_BAKED);
     }
 
     /**
@@ -52,7 +53,7 @@ public class Potato implements Tuber {
     public void addCondiments(String... names) throws NotDeliciousException {
         for (String condimentName : names) {
             Condiment condiment = new Condiment(condimentName, true);
-            if (!condiment.isDelicious()) throw new NotDeliciousException();
+            if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
             this.getCondiments().add(condiment);
         }
     }
@@ -79,6 +80,7 @@ public class Potato implements Tuber {
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            connection.addRequestProperty("User-Agent", "Potato/1.7.5");
             connection.connect();
             int inOven = connection.getResponseCode();
             return inOven == 200;
@@ -101,13 +103,43 @@ public class Potato implements Tuber {
     }
 
     /**
+     * Checks if this potato is cooked. Returns the result of {@link #hasBeenBoiledInWater()}.
+     *
+     * @return true if this potato is baked, false if otherwise
+     */
+    public boolean isCooked() {
+        try {
+            return this.hasBeenBoiledInWater();
+        } catch (BurntException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if the potato is succesfully boiled at the right amount of degrees.
+     *
+     * @return true if the potato has succesfully been boiled, false if otherwise
+     * @throws BurntException if the potato has been burned during the process of cooking
+     */
+    public boolean hasBeenBoiledInWater() throws BurntException {
+        int waterDegrees = (int) (Math.random() * 200);
+        System.out.println("Trying to boil potato at " + waterDegrees + " degrees.");
+        if (waterDegrees < 70) {
+            return false;
+        } else if (waterDegrees > 130) {
+            throw new BurntException(waterDegrees);
+        }
+        return true;
+    }
+
+    /**
      * Checks if this potato is delicious. Returns the result of {@link #isBaked()}.
      *
      * @return true if this potato is delicious, false if otherwise
      */
     @Override
     public boolean isDelicious() {
-        return this.isBaked();
+        return this.isBaked() || this.isCooked();
     }
 
     /**
