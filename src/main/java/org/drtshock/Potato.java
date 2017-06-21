@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
@@ -54,6 +55,7 @@ public class Potato implements Tuber {
         for (String condimentName : names) {
             Condiment condiment = new Condiment(condimentName, true);
             if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
+            if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
             this.getCondiments().add(condiment);
         }
     }
@@ -158,10 +160,16 @@ public class Potato implements Tuber {
     private class Condiment {
         private final String name;
         private final boolean delicious;
+        private final boolean expired;
 
-        public Condiment(String name, boolean delicious) {
+        public Condiment(String name, boolean delicious, boolean expired) {
             this.name = name;
             this.delicious = delicious;
+            this.expired = expired;
+        }
+
+        public Condiment(String name, boolean delicious) {
+            this(name, delicious, ThreadLocalRandom.current().nextInt(100) < 3);
         }
 
         /**
@@ -171,6 +179,15 @@ public class Potato implements Tuber {
          */
         public boolean isDelicious() {
             return this.delicious;
+        }
+
+        /**
+         * Returns if this condiment is expired or not.
+         *
+         * @return true if expired, false if otherwise
+         */
+        public boolean isExpired() {
+            return expired;
         }
 
         /**
