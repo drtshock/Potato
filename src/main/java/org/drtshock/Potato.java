@@ -20,7 +20,7 @@ public class Potato implements Tuber {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?");
+            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
         }
     }
 
@@ -43,7 +43,7 @@ public class Potato implements Tuber {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
                 "salt", "tabasco", "tomatoes");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.RAW);
+        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
 
     /**
@@ -96,9 +96,13 @@ public class Potato implements Tuber {
      *
      * @return true if this potato is baked, false if otherwise
      */
-    public boolean isBaked() {
+    public boolean isBaked() throws NotDeliciousException {
         try {
-            return this.isPutIntoOven();
+            long begin = System.currentTimeMillis();
+            boolean isInOven = this.isPutIntoOven();
+            long bakeTime = (System.currentTimeMillis() - begin);
+            if (bakeTime > 1100) throw new NotDeliciousException(NotDeliciousReason.OVERCOOKED);
+            return isInOven;
         } catch (OvenException e) {
             return false;
         }
@@ -109,7 +113,7 @@ public class Potato implements Tuber {
      *
      * @return true if this potato is baked, false if otherwise
      */
-    public boolean isCooked() {
+    public boolean isBoiled() {
         try {
             return this.hasBeenBoiledInWater();
         } catch (BurntException e) {
@@ -141,7 +145,11 @@ public class Potato implements Tuber {
      */
     @Override
     public boolean isDelicious() {
-        return this.isBaked() || this.isCooked();
+        try {
+            return this.isBaked() || this.isBoiled();
+        } catch (NotDeliciousException e) {
+            return false;
+        }
     }
 
     /**
