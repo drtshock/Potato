@@ -43,7 +43,7 @@ public class Potato implements Tuber {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
                 "salt", "tabasco", "tomatoes");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_BAKED);
+        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.RAW);
     }
 
     /**
