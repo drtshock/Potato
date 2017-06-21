@@ -5,7 +5,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
@@ -172,7 +171,7 @@ public class Potato implements Tuber {
         }
 
         public Condiment(String name, boolean delicious) {
-            this(name, delicious, ThreadLocalRandom.current().nextInt(100) < 3);
+            this(name, delicious, Math.random() * 100 < 3);
         }
 
         /**
