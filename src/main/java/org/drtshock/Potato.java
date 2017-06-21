@@ -86,7 +86,7 @@ public class Potato implements Tuber {
             connection.connect();
             int inOven = connection.getResponseCode();
             long bakeTime = (System.currentTimeMillis() - begin);
-            if (bakeTime > 1100) throw new BurntException();
+            if (bakeTime > 1100) throw new BurntException(bakeTime);
             return inOven == 200;
         } catch (IOException ex) {
             throw new OvenException(ex);
