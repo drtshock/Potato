@@ -77,14 +77,17 @@ public class Potato implements Tuber {
      * @return true if potato is in the oven, false if otherwise
      * @throws OvenException if the oven encounters an internal exception
      */
-    public boolean isPutIntoOven() throws OvenException {
+    public boolean isPutIntoOven() throws OvenException, BurntException {
         try {
+            long begin = System.currentTimeMillis();
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent", "Potato/1.7.5");
             connection.connect();
             int inOven = connection.getResponseCode();
+            long bakeTime = (System.currentTimeMillis() - begin);
+            if (bakeTime > 1100) throw new BurntException();
             return inOven == 200;
         } catch (IOException ex) {
             throw new OvenException(ex);
@@ -96,14 +99,10 @@ public class Potato implements Tuber {
      *
      * @return true if this potato is baked, false if otherwise
      */
-    public boolean isBaked() throws NotDeliciousException {
+    public boolean isBaked() {
         try {
-            long begin = System.currentTimeMillis();
-            boolean isInOven = this.isPutIntoOven();
-            long bakeTime = (System.currentTimeMillis() - begin);
-            if (bakeTime > 1100) throw new NotDeliciousException(NotDeliciousReason.OVERCOOKED);
-            return isInOven;
-        } catch (OvenException e) {
+            return this.isPutIntoOven();
+        } catch (OvenException | BurntException e) {
             return false;
         }
     }
@@ -145,11 +144,7 @@ public class Potato implements Tuber {
      */
     @Override
     public boolean isDelicious() {
-        try {
-            return this.isBaked() || this.isBoiled();
-        } catch (NotDeliciousException e) {
-            return false;
-        }
+        return this.isBaked() || this.isBoiled();
     }
 
     /**
