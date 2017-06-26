@@ -9,4 +9,8 @@ public class BurntException extends Exception {
         super("Potato is badly burnt by trying to boil it at " + degrees + " degrees!!");
     }
 
+    public BurntException(long bakeTime) {
+        super("Potato is badly burnt by baking for too long!! (" + bakeTime + "ms)");
+    }
+
 }
