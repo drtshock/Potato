@@ -109,9 +109,9 @@ public class Potato implements Tuber {
     }
 
     /**
-     * Checks if the potato is succesfully boiled at the right amount of degrees.
+     * Checks if the potato is successfully boiled at the right amount of degrees.
      *
-     * @return true if the potato has succesfully been boiled, false if otherwise
+     * @return true if the potato has successfully been boiled, false if otherwise
      * @throws BurntException if the potato has been burned during the process of cooking
      */
     public boolean hasBeenBoiledInWater() throws BurntException {
