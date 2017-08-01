@@ -12,6 +12,7 @@ import java.util.List;
 public class Potato implements Tuber {
 
     private final List<Condiment> condiments = new ArrayList<>();
+    private final String lineSeparator = System.lineSeparator();
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
@@ -19,7 +20,8 @@ public class Potato implements Tuber {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
+            System.err.println("Fatal error! How could Potato not be delicious?"
+                    +potato.lineSeparator+"Reason: " + e.getReason());
         }
     }
 
@@ -40,7 +42,7 @@ public class Potato implements Tuber {
      */
     public void prepare() throws NotDeliciousException {
         this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
-                "salt", "tabasco", "tomatoes");
+                "salt", "tabasco", "tomatoes", "onions");
         this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
