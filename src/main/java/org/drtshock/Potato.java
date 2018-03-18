@@ -9,12 +9,14 @@ import java.util.List;
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
  */
-public class Potato implements Tuber {
+public enum  Potato implements Tuber {
+
+    thePotato;
 
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato();
+        final Potato potato = thePotato;
         try {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
@@ -153,7 +155,7 @@ public class Potato implements Tuber {
      */
     @Override
     public Tuber propagate() {
-        return new Potato();
+        return thePotato;
     }
 
     /**
