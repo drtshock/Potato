@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
  */
-public enum  Potato implements Tuber {
+public enum Potato implements Tuber {
 
     thePotato;
 
@@ -157,6 +157,15 @@ public enum  Potato implements Tuber {
     public Tuber propagate() {
         return thePotato;
     }
+
+    public static Potato[] asManyPotatosAsYouWant(long count) {
+        ArrayList<Potato> returnList = new ArrayList<Potato>();
+        for(int i=0; i < count; i++) {
+            returnList.add(thePotato);
+        }
+        return returnList.toArray(new Potato[returnList.size()]);
+    }
+
 
     /**
      * A type of food added to tubers.
