@@ -9,14 +9,15 @@ import java.util.List;
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
  */
-public enum Potato implements Tuber {
+public class Potato implements Tuber {
 
-    thePotato;
+
+
 
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = thePotato;
+        final Potato potato = new Potato();
         try {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
@@ -155,13 +156,13 @@ public enum Potato implements Tuber {
      */
     @Override
     public Tuber propagate() {
-        return thePotato;
+        return new Potato();
     }
 
     public static Potato[] asManyPotatosAsYouWant(long count) {
         ArrayList<Potato> returnList = new ArrayList<Potato>();
         for(int i=0; i < count; i++) {
-            returnList.add(thePotato);
+            returnList.add(new Potato());
         }
         return returnList.toArray(new Potato[returnList.size()]);
     }
