@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class Potato implements Tuber {
 
+
+
+
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -155,6 +158,15 @@ public class Potato implements Tuber {
     public Tuber propagate() {
         return new Potato();
     }
+
+    public static Potato[] asManyPotatosAsYouWant(long count) {
+        ArrayList<Potato> returnList = new ArrayList<Potato>();
+        for(int i=0; i < count; i++) {
+            returnList.add(new Potato());
+        }
+        return returnList.toArray(new Potato[returnList.size()]);
+    }
+
 
     /**
      * A type of food added to tubers.
