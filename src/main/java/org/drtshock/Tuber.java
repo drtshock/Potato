@@ -1,7 +1,9 @@
 package org.drtshock;
 
 public interface Tuber {
-    boolean isDelicious();
+
+    boolean isDelicious() throws NotDeliciousException;
 
     Tuber propagate();
+
 }
