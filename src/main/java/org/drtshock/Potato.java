@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class Potato implements Tuber {
 
-	private final Random potatential = new Random();
+    private final Random potatential = new Random();
     private final List<Condiment> condiments = new ArrayList<>();
     private boolean boiled = false;
     private boolean baked = false;
@@ -47,7 +47,7 @@ public class Potato implements Tuber {
                 "salt", "tabasco", "tomatoes");
         this.listCondiments();
         if(!getCondiments().stream().anyMatch(condiment -> condiment.getName().equals("crumbled bacon")))
-        	throw new NotDeliciousException(NotDeliciousReason.NO_BACON);
+            throw new NotDeliciousException(NotDeliciousReason.NO_BACON);
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_RIGHT_TEXTURE_PERHAPS_BOTH_COOKED_AND_BAKED);
     }
 
@@ -58,12 +58,12 @@ public class Potato implements Tuber {
      */
     public void maybeAddCondiments(String... names) throws NotDeliciousException {
         for (String condimentName : names) {
-        	if (potatential.nextBoolean()) {
+            if (potatential.nextBoolean()) {
                 Condiment condiment = new Condiment(condimentName, true);
                 if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
                 if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
                 this.getCondiments().add(condiment);
-        	}
+            }
         }
     }
 
@@ -87,7 +87,7 @@ public class Potato implements Tuber {
      */
     public void bake() throws BurntException, OvenException {
         try {
-        	System.out.println("Trying to bake potato in the oven...");
+            System.out.println("Trying to bake potato in the oven...");
             long begin = System.currentTimeMillis();
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -100,7 +100,7 @@ public class Potato implements Tuber {
             System.out.println("Baked potato for " + bakeTime + " millis.");
             baked = (inOven == 200);
             if (!baked) {
-            	System.out.println("Potato hasn't been baked!");
+                System.out.println("Potato hasn't been baked!");
             }
         } catch (IOException ex) {
             throw new OvenException(ex);
@@ -134,18 +134,18 @@ public class Potato implements Tuber {
      */
     @Override
     public boolean isDelicious() throws NotDeliciousException {
-		try {
-			if (potatential.nextBoolean()) bake();
-			if (potatential.nextBoolean()) boil();
-		} catch (BurntException e) {
-			throw new NotDeliciousException(NotDeliciousReason.BURNT);
-		} catch (OvenException | UndercookedException e) {
-			throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
-		}
-		if (!boiled && ! baked) {
-			throw new NotDeliciousException(NotDeliciousReason.RAW);
-		}
-		return boiled ^ baked;
+        try {
+            if (potatential.nextBoolean()) bake();
+            if (potatential.nextBoolean()) boil();
+        } catch (BurntException e) {
+            throw new NotDeliciousException(NotDeliciousReason.BURNT);
+        } catch (OvenException | UndercookedException e) {
+            throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+        }
+        if (!boiled && ! baked) {
+            throw new NotDeliciousException(NotDeliciousReason.RAW);
+        }
+        return boiled ^ baked;
     }
 
     /**

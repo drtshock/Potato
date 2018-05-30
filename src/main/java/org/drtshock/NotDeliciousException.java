@@ -5,9 +5,9 @@ package org.drtshock;
  */
 public class NotDeliciousException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
+    /**
      * The reason for non-deliciousness.
      */
     private NotDeliciousReason notDeliciousReason;

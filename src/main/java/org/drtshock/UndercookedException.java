@@ -5,9 +5,10 @@ package org.drtshock;
  */
 public class UndercookedException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public UndercookedException(int degrees) {
-		super("Potato is badly undercooked at " + degrees + " degrees and thus too hard and not nice!");
-	}
+    public UndercookedException(int degrees) {
+        super("Potato is badly undercooked at " + degrees + " degrees and thus too hard and not nice!");
+    }
+
 }

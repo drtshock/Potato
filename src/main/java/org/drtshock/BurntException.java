@@ -5,9 +5,9 @@ package org.drtshock;
  */
 public class BurntException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public BurntException(int degrees) {
+    public BurntException(int degrees) {
         super("Potato is badly burnt by trying to boil it at " + degrees + " degrees!!");
     }
 
