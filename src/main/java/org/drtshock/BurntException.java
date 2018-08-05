@@ -5,8 +5,8 @@ package org.drtshock;
  */
 public class BurntException extends Exception {
 
-    public BurntException(int degrees) {
-        super("Potato is badly burnt by trying to boil it at " + degrees + " degrees!!");
+    public BurntException(int degrees, int degreesEU) {
+        super("Potato is badly burnt by trying to boil it at (F:" + degrees + ") (C:" + degreesEU + ") degrees!!");
     }
 
     public BurntException(long bakeTime) {
