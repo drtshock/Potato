@@ -5,12 +5,16 @@ package org.drtshock;
  */
 public class BurntException extends Exception {
 
-    public BurntException(int degrees) {
-        super("Potato is badly burnt by trying to boil it at " + degrees + " degrees!!");
+    public BurntException(String message) {
+        super(message);
     }
 
-    public BurntException(long bakeTime) {
-        super("Potato is badly burnt by baking for too long!! (" + bakeTime + "ms)");
+    public BurntException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public BurntException(Throwable cause) {
+        super(cause);
     }
 
 }
