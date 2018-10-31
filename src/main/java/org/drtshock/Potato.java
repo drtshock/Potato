@@ -5,13 +5,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
  */
 public class Potato implements Tuber {
 
+    private final Random potatential = new Random();
     private final List<Condiment> condiments = new ArrayList<>();
+    private boolean boiled = false;
+    private boolean baked = false;
 
     public static void main(String[] args) {
         final Potato potato = new Potato();
@@ -39,23 +43,27 @@ public class Potato implements Tuber {
      * @throws NotDeliciousException If the potato is not delicious
      */
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
+        this.maybeAddCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
                 "salt", "tabasco", "tomatoes", "onion");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+        if(!getCondiments().stream().anyMatch(condiment -> condiment.getName().equals("crumbled bacon")))
+            throw new NotDeliciousException(NotDeliciousReason.NO_BACON);
+        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_RIGHT_TEXTURE_PERHAPS_BOTH_COOKED_AND_BAKED);
     }
 
     /**
-     * Adds condiments to the potato.
+     * Maybe adds condiments to the potato.
      *
      * @param names Names of the condiments to add
      */
-    public void addCondiments(String... names) throws NotDeliciousException {
+    public void maybeAddCondiments(String... names) throws NotDeliciousException {
         for (String condimentName : names) {
-            Condiment condiment = new Condiment(condimentName, true);
-            if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
-            if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
-            this.getCondiments().add(condiment);
+            if (potatential.nextBoolean()) {
+                Condiment condiment = new Condiment(condimentName, true);
+                if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
+                if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
+                this.getCondiments().add(condiment);
+            }
         }
     }
 
@@ -71,13 +79,15 @@ public class Potato implements Tuber {
     }
 
     /**
-     * Checks if the potato is put into the oven.
+     * Bakes the potato in an oven and give useful feedback about it.
      *
-     * @return true if potato is in the oven, false if otherwise
+     * @return true if potato is correctly baked.
+     * @throws BurntException if the potato is burnt to a point of no deliciousness.
      * @throws OvenException if the oven encounters an internal exception
      */
-    public boolean isPutIntoOven() throws OvenException, BurntException {
+    public void bake() throws BurntException, OvenException {
         try {
+            System.out.println("Trying to bake potato in the oven...");
             long begin = System.currentTimeMillis();
             final URL url = new URL("https://www.google.com/search?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -87,63 +97,55 @@ public class Potato implements Tuber {
             int inOven = connection.getResponseCode();
             long bakeTime = (System.currentTimeMillis() - begin);
             if (bakeTime > 1100) throw new BurntException(bakeTime);
-            return inOven == 200;
+            System.out.println("Baked potato for " + bakeTime + " millis.");
+            baked = (inOven == 200);
+            if (!baked) {
+                System.out.println("Potato hasn't been baked!");
+            }
         } catch (IOException ex) {
             throw new OvenException(ex);
         }
     }
 
     /**
-     * Checks if this potato is baked. Returns the result of {@link #isPutIntoOven()}.
-     *
-     * @return true if this potato is baked, false if otherwise
-     */
-    public boolean isBaked() {
-        try {
-            return this.isPutIntoOven();
-        } catch (OvenException | BurntException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks if the potato is succesfully boiled at the right amount of degrees.
+     * Boils a potato in water and gives useful feedback about it.
      *
      * @return true if the potato has succesfully been boiled, false if otherwise
+     * @throws UndercookedException if the potato hasn't cooked long enough.
      * @throws BurntException if the potato has been burned during the process of cooking
      */
-    public boolean hasBeenBoiledInWater() throws BurntException {
+    public void boil() throws BurntException, UndercookedException {
         int waterDegrees = (int) (Math.random() * 200);
         System.out.println("Trying to boil potato at " + waterDegrees + " degrees.");
-        if (waterDegrees < 70) {
-            return false;
+        if (waterDegrees < 70 && !baked) {
+            throw new UndercookedException(waterDegrees);
         } else if (waterDegrees > 130) {
             throw new BurntException(waterDegrees);
         }
-        return true;
+        boiled = true;
     }
 
     /**
-     * Checks if this potato is cooked. Returns the result of {@link #hasBeenBoiledInWater()}.
-     *
-     * @return true if this potato is baked, false if otherwise
-     */
-    public boolean isBoiled() {
-        try {
-            return this.hasBeenBoiledInWater();
-        } catch (BurntException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks if this potato is delicious. Returns the result of {@link #isBaked()}.
+     * Checks if this potato is delicious.
+     * A potato can only be delicious if it has been either cooked or baked.
      *
      * @return true if this potato is delicious, false if otherwise
+     * @throws NotDeliciousException if the potato is not delicious!
      */
     @Override
-    public boolean isDelicious() {
-        return this.isBaked() || this.isBoiled();
+    public boolean isDelicious() throws NotDeliciousException {
+        try {
+            if (potatential.nextBoolean()) bake();
+            if (potatential.nextBoolean()) boil();
+        } catch (BurntException e) {
+            throw new NotDeliciousException(NotDeliciousReason.BURNT);
+        } catch (OvenException | UndercookedException e) {
+            throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+        }
+        if (!boiled && ! baked) {
+            throw new NotDeliciousException(NotDeliciousReason.RAW);
+        }
+        return boiled ^ baked;
     }
 
     /**
