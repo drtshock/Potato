@@ -1,11 +1,18 @@
 package org.drtshock;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.drtshock.NotDeliciousReason;
+import org.drtshock.Tuber;
+import org.drtshock.NotDeliciousException;
+import org.drtshock.BurntException;
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
  */
@@ -18,11 +25,31 @@ public class Potato implements Tuber {
         try {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
-        } catch (NotDeliciousException e) {
+            potato.servePotato();                     
+        } 
+       catch (NotDeliciousException e) {
             System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
         }
     }
-
+    /**Retrieves potatoe from oven and presents it to the consumer
+     * 
+     * @return void
+     */
+    public void servePotato() {
+     try {
+    	 String localDir = System.getProperty("user.dir");
+    	 String[] potatoes = {"GLaDOS.jpg","lovethepotatoe.jpg","sourcream.png"};
+    	 Random myRandom = new Random();
+         File f = new File(localDir+"/src/main/resources/"+potatoes[Math.abs(myRandom.nextInt()%potatoes.length)]);
+         Desktop dt = Desktop.getDesktop();
+         dt.open(f);
+         System.out.println("Done.");
+     }
+     catch (IOException ex) {
+         System.out.print("whoops");
+     }
+     
+    }
     /**
      * Gets the condiments on this potato.
      *
