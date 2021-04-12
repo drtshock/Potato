@@ -3,7 +3,7 @@ Potato
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
-If you fork this you can say that you forked a potato, and forking a potato is really cool, cus, potato, everyone likes potatos.
+If you fork this you can say that you forked a potato, and forking a potato is really cool, cus, potato, everyone likes potato.
 
 ![potato](http://i.imgur.com/dRnvRZZ.jpg)
 
