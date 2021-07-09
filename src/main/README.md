@@ -1,6 +1,6 @@
-HOW TO BAKE A POTATO:
+#HOW TO BAKE A POTATO
 Here is my tried and true best method for how to make baked potatoes in the oven…
-
+# Tutorial
 Heat oven to 450°F. Yep, you read the temperature right.  The oven needs to be extra hot, so that the potato skins will crisp up quickly.
 Prepare your baking sheet.  If you happen to own a wire cooling rack, I highly recommend placing one on top of a baking sheet, so that the potatoes can cook evenly on all sides.  Or if you don’t own a wire rack, you can either place the potatoes directly on the oven racks (with a baking sheet below, to catch any drips) or you can just bake the potatoes on a foil-lined (or parchment-lined, at your own risk) baking sheet.
 Poke your potato all over with a fork.  Because no one wants to deal with exploding potatoes. ;)
