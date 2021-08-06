@@ -11,16 +11,22 @@ import java.util.List;
  */
 public class Potato implements Tuber {
 
+    private final boolean isVegan;
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato();
+        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
+        if (potato.isVegan) System.out.println("This potato is vegan.");
         try {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
         } catch (NotDeliciousException e) {
             System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
         }
+    }
+
+    public Potato(boolean isVegan) {
+        this.isVegan = isVegan;
     }
 
     /**
@@ -39,8 +45,8 @@ public class Potato implements Tuber {
      * @throws NotDeliciousException If the potato is not delicious
      */
     public void prepare() throws NotDeliciousException {
-        this.addCondiments("sour cream", "chives", "butter", "crumbled bacon", "grated cheese", "ketchup", "pepper",
-                "salt", "tabasco", "tomatoes", "onion");
+        this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
+        if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
         this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
@@ -153,7 +159,7 @@ public class Potato implements Tuber {
      */
     @Override
     public Tuber propagate() {
-        return new Potato();
+        return new Potato(this.isVegan);
     }
 
     /**
