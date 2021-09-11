@@ -18,7 +18,7 @@ public class Potato implements Tuber {
         final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
         if (potato.isVegan) {
             System.out.println("This potato is vegan.");
-            System.out.println("Product may contain butter. Potato industries and affiliates will not be held responsible for culinary dissatisfaction arising from consumption of vegan potatoes. Vegan is used as a marketting term only, and is not meant as a dietary guarentee.");
+            System.out.println("Product may contain butter. Potato industries and affiliates will not be held responsible for culinary dissatisfaction arising from consumption of vegan potatoes. Vegan is used as a marketing term only, and is not meant as a dietary guarantee.");
         }
         try {
             potato.prepare();
