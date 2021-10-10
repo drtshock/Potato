@@ -1,4 +1,4 @@
-Potato
+[Potato](https://en.wikipedia.org/wiki/Potato)
 ======
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
