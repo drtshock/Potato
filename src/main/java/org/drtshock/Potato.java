@@ -50,7 +50,7 @@ public class Potato {
                 System.out.println("./" + path
                         + " --help");
                 System.out.println("./" + path
-                        + " --tests=<number>");
+                        + " --tests <number>");
                 System.out.println("./" + path
                         + " --vegan=true");
                 System.out.println("./" + path
