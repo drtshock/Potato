@@ -7,6 +7,7 @@ import org.drtshock.api.events.PotatoItemErrorEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 public class Potato {
     public static PrintStream stream;
@@ -23,13 +24,36 @@ public class Potato {
     }
 
     public static void main(String[] args) {
-        boolean isVegan = args.length >= 1 && args[0].equalsIgnoreCase("--vegan");
-        int potatoes = isVegan ? Integer.parseInt(args[2])
-                : args.length >= 2 ? Integer.parseInt(args[1]) : 1;
-        uselessFeatures = args.length >= 1 &&
-                (args[0].equalsIgnoreCase("--vegan") ? args[3].equalsIgnoreCase("--uselessfeatures")
-                        || args[1].equalsIgnoreCase("--uselessfeatures")
-                        : args[0].equalsIgnoreCase("--uselessfeatures"));
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("--help")) {
+                String path = new File(Potato.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
+                System.out.println("Command line arguments:");
+                System.out.println("./" + path
+                        + " --help");
+                System.out.println("./" + path
+                        + " --tests=<number>");
+                System.out.println("./" + path
+                        + " --vegan=true");
+                System.out.println("./" + path
+                        + " --uselessFeatures=true");
+                System.out.println("./" + path
+                        + " --uselessFeatures=true --vegan=true");
+                System.out.println("./" + path
+                        + " --uselessFeatures=true --vegan=true --count=<number>");
+                System.out.println("./" + path
+                        + " --uselessFeatures=true --count=<number>");
+                System.out.println("./" + path
+                        + " --vegan=true --count=<number>");
+                System.out.println("./" + path
+                        + " --count=<number>");
+
+                return;
+            }
+        }
+
+        boolean isVegan = getArgBool(args, "--vegan");
+        int potatoes = getArgInt(args, "--count");
+        uselessFeatures = getArgBool(args, "--uselessFeatures");
         if (uselessFeatures) System.out.println("uselessFeatures is enabled");
 
         PrintStream streamOut = System.out;
@@ -62,6 +86,27 @@ public class Potato {
         }
 
         createPotatoes(isVegan, potatoes);
+    }
+
+    private static Object getArg(String[] args, String argument) {
+        Object[] found = Arrays.stream(String.join(" ", String.join(" ", args)
+                .split(String.format("\\%s=(.*;)", argument))[0]
+                .split(argument + "="))
+                .split(" ")).filter((str) -> !str.equalsIgnoreCase("") && !str.startsWith("--")).toArray();
+        String foundStr = "";
+        if (found.length >= 1) foundStr = (String) found[0];
+        if (foundStr.equals("")) return null;
+        return foundStr;
+    }
+
+    private static boolean getArgBool(String[] args, String argument) {
+        Object arg = getArg(args, argument);
+        return arg != null && Boolean.parseBoolean((String) arg);
+    }
+
+    private static int getArgInt(String[] args, String argument) {
+        Object arg = getArg(args, argument);
+        return arg == null ? 1 : Integer.parseInt((String)arg);
     }
 
     private static void createPotatoes(boolean isVegan, int potatoes) {
