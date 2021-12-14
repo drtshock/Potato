@@ -1,4 +1,4 @@
-DTRShock (Original Developer)
+DRTShock (Original Developer)
 
 SkepticalPotato2k
 
