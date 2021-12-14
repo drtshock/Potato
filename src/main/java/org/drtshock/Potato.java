@@ -10,7 +10,6 @@ import java.util.List;
 
 public class Potato {
     public static PrintStream stream;
-    private static PrintStream streamOut;
     private static final List<PotatoItem> items = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -19,7 +18,7 @@ public class Potato {
 //            System.out.println("args[" + i + "]: " + args[i]);
 //        }
 
-        streamOut = System.out;
+        PrintStream streamOut = System.out;
         stream = System.out;
 
         boolean isVegan = args.length >= 1 && args[0].equalsIgnoreCase("--vegan");
@@ -56,7 +55,7 @@ public class Potato {
     }
 
     private static void createPotatoes(boolean isVegan, int potatoes) {
-        for (int i = 0; i <= potatoes; i++) {
+        for (int i = 1; i <= potatoes; i++) {
             items.add(createPotato(i, isVegan));
         }
 
