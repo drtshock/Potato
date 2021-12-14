@@ -4,4 +4,4 @@ target/
 .project
 *.iml
 tests/
-.idea/
+.idea
