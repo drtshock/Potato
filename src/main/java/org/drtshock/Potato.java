@@ -93,10 +93,7 @@ public class Potato {
                 .split(String.format("\\%s=(.*;)", argument))[0]
                 .split(argument + "="))
                 .split(" ")).filter((str) -> !str.equalsIgnoreCase("") && !str.startsWith("--")).toArray();
-        String foundStr = "";
-        if (found.length >= 1) foundStr = (String) found[0];
-        if (foundStr.equals("")) return null;
-        return foundStr;
+        return found.length == 0 || found[0].equals("") ? null : found[0];
     }
 
     private static boolean getArgBool(String[] args, String argument) {
