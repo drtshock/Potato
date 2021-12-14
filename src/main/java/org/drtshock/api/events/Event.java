@@ -1,4 +1,4 @@
-package org.drtshock.api;
+package org.drtshock.api.events;
 
 public interface Event {
     boolean execute(Event event);

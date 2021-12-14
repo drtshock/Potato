@@ -1,4 +1,4 @@
-package org.drtshock.api;
+package org.drtshock.api.condiments;
 
 public class VeganCondiments {
     private static final String[] veganFoods =

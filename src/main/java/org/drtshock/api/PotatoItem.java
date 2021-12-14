@@ -1,6 +1,10 @@
 package org.drtshock.api;
 
 import org.drtshock.Potato;
+import org.drtshock.api.condiments.Condiment;
+import org.drtshock.api.condiments.DelishCondiments;
+import org.drtshock.api.condiments.VeganCondiments;
+import org.drtshock.api.events.Cancellable;
 import org.drtshock.api.events.PotatoItemCreateEvent;
 import org.drtshock.exceptions.*;
 
@@ -78,8 +82,8 @@ public class PotatoItem implements DelectableItem, Runnable {
      * @throws NotDeliciousException If the potato is not delicious
      */
     public void prepare() throws NotDeliciousException, VeganException {
+        if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup", "horseradish");
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
-        if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
         this.listCondiments();
         if (!this.isDelicious()) {
             throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
@@ -104,8 +108,8 @@ public class PotatoItem implements DelectableItem, Runnable {
      */
     public void addCondiment(String name) throws NotDeliciousException, VeganException {
         Condiment condiment = new Condiment(name, DelishCondiments.isDelish(name), VeganCondiments.isVegan(name));
-        if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
         if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
+        if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
         if (!condiment.isVegan() && isVegan) {
             VeganException error = new VeganException(condiment);
             Potato.getPotatoItemErrorEvent().setErrorMessage(error.getMsg());
@@ -142,7 +146,7 @@ public class PotatoItem implements DelectableItem, Runnable {
     public boolean isPutIntoOven() throws OvenException, BurntException {
         try {
             long begin = System.currentTimeMillis();
-            int inOven = -1;
+            int inOven;
             if (Potato.uselessFeatures) {
                 final URL url = new URL("https://www.google.com/search?q=potato");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();

@@ -1,4 +1,4 @@
-package org.drtshock.api;
+package org.drtshock.api.condiments;
 
 /**
  * which condiments are delish (yum!)
@@ -8,7 +8,7 @@ public class DelishCondiments {
             "chives", "butter", "pepper",
             "salt", "tabasco", "tomatoes",
             "onion", "sour cream", "crumbled bacon",
-            "grated cheese", "ketchup"};
+            "grated cheese", "ketchup", "horseradish"};
 
     /**
      * determines that food is delish

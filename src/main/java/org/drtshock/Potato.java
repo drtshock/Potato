@@ -1,7 +1,5 @@
 package org.drtshock;
 
-//import org.drtshock.api.Cancellable;
-//import org.drtshock.api.Event;
 import org.drtshock.api.PotatoItem;
 import org.drtshock.api.events.PotatoItemCreateEvent;
 import org.drtshock.api.events.PotatoItemErrorEvent;
@@ -28,26 +26,7 @@ public class Potato {
         return potatoItemErrorEvent;
     }
 
-//    public static class PotatoItemErrorTestEvent implements Event {
-//        @Override
-//        public boolean execute(Event event) {
-//            System.out.println("Yo PotatoItemErrorTestEvent here: " + ((PotatoItemErrorEvent)event).getErrorMessage());
-//
-//            return true;
-//        }
-//
-//        @Override
-//        public void addHandle(Event handle) {}
-//    }
-
     public static void main(String[] args) {
-//        Debugging
-//        for(int i = 0; i<args.length; i++) {
-//            System.out.println("args[" + i + "]: " + args[i]);
-//        }
-
-        // getPotatoItemErrorEvent().addHandle(new PotatoItemErrorTestEvent());
-
         PrintStream streamOut = System.out;
         stream = System.out;
 
@@ -92,14 +71,7 @@ public class Potato {
         for (int i = 1; i <= potatoes; i++) items.add(createPotato(i, isVegan));
 
         for (PotatoItem item : items) {
-//            Thread thread = new Thread(item);
-//            thread.start();
-
             item.calculate();
-
-            // this is here so each thread actually runs after each other as
-            // it will be out of sync otherwise.
-            // while (thread.isAlive()); // the threading is probably useless so i probably will remove it if i decide to optimise
         }
     }
 

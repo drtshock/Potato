@@ -1,4 +1,4 @@
-package org.drtshock.api;
+package org.drtshock.api.condiments;
 
 /**
  * can a DelectableItem expire?

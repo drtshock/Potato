@@ -1,6 +1,6 @@
 package org.drtshock.exceptions;
 
-import org.drtshock.api.Condiment;
+import org.drtshock.api.condiments.Condiment;
 
 public class VeganException extends Exception {
     private String msg;

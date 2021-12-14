@@ -1,4 +1,6 @@
-package org.drtshock.api;
+package org.drtshock.api.condiments;
+
+import org.drtshock.api.DelectableItem;
 
 /**
  * A type of food added to DelectableItems.
