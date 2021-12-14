@@ -1,6 +1,7 @@
 package org.drtshock;
 
 import org.drtshock.api.PotatoItem;
+import org.drtshock.api.events.PotatoItemCreateEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +12,11 @@ import java.util.List;
 public class Potato {
     public static PrintStream stream;
     private static final List<PotatoItem> items = new ArrayList<>();
+
+    private static final PotatoItemCreateEvent potatoItemCreateEvent = new PotatoItemCreateEvent();
+    public static PotatoItemCreateEvent getPotatoItemCreateEvent() {
+        return potatoItemCreateEvent;
+    }
 
     public static void main(String[] args) {
 //        Debugging

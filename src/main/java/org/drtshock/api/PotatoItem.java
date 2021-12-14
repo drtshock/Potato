@@ -32,7 +32,7 @@ public class PotatoItem implements DelectableItem, Runnable {
 
         if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
         try {
-            PotatoItemCreateEvent event = new PotatoItemCreateEvent();
+            PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
             if (!event.execute(event)) return;
 
             prepare();
