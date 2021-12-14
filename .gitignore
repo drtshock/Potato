@@ -5,3 +5,4 @@ target/
 *.iml
 tests/
 .idea
+src/main/java/org/drtshock/api/examples/

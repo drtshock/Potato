@@ -1,16 +1,16 @@
 package org.drtshock.api.events;
 
-import org.drtshock.api.DelectableItem;
 import org.drtshock.api.condiments.Condiment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PotatoItemCreateEvent implements Event, Cancellable {
+public class PotatoItemAddCondimentEvent implements Event, Cancellable {
     private final List<Event> handles = new ArrayList<>();
     private boolean canceled = false;
-
-    public DelectableItem item;
+    
+    public String condimentName;
+    public Condiment condiment;
 
     @Override
     public boolean execute(Event event) {
@@ -34,11 +34,23 @@ public class PotatoItemCreateEvent implements Event, Cancellable {
         return canceled;
     }
 
-    public DelectableItem getItem() {
-        return item;
+    public String getCondimentName() {
+        return condimentName;
     }
 
-    public void setItem(DelectableItem item) {
-        this.item = item;
+    public void setCondimentName(String condimentName) {
+        this.condimentName = condimentName;
+    }
+
+    public Condiment getCondiment() {
+        return condiment;
+    }
+
+    public void setCondiment(Condiment condiment) {
+        this.condiment = condiment;
+    }
+
+    public List<Event> getHandles() {
+        return handles;
     }
 }

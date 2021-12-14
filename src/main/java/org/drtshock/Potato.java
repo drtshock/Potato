@@ -1,8 +1,10 @@
 package org.drtshock;
 
 import org.drtshock.api.PotatoItem;
+import org.drtshock.api.events.PotatoItemAddCondimentEvent;
 import org.drtshock.api.events.PotatoItemCreateEvent;
 import org.drtshock.api.events.PotatoItemErrorEvent;
+import org.drtshock.api.events.PotatoItemRemoveCondimentEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +15,9 @@ public class Potato {
     public static PrintStream stream;
     public static boolean uselessFeatures = false;
 
+    /**
+     * Events
+     */
     private static final PotatoItemCreateEvent potatoItemCreateEvent = new PotatoItemCreateEvent();
     public static PotatoItemCreateEvent getPotatoItemCreateEvent() {
         return potatoItemCreateEvent;
@@ -23,7 +28,21 @@ public class Potato {
         return potatoItemErrorEvent;
     }
 
+    private static final PotatoItemAddCondimentEvent potatoItemAddCondimentEvent = new PotatoItemAddCondimentEvent();
+    public static PotatoItemAddCondimentEvent getPotatoItemAddCondimentEvent() {
+        return potatoItemAddCondimentEvent;
+    }
+
+    private static final PotatoItemRemoveCondimentEvent potatoItemRemoveCondimentEvent = new PotatoItemRemoveCondimentEvent();
+    public static PotatoItemRemoveCondimentEvent getPotatoItemRemoveCondimentEvent() {
+        return potatoItemRemoveCondimentEvent;
+    }
+
     public static void main(String[] args) {
+        init(args);
+    }
+
+    public static void init(String[] args) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("--help")) {
                 String path = new File(Potato.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
@@ -51,9 +70,9 @@ public class Potato {
             }
         }
 
-        boolean isVegan = getArgBool(args, "--vegan");
-        int potatoes = getArgInt(args, "--count");
-        uselessFeatures = getArgBool(args, "--uselessFeatures");
+        boolean isVegan = CLIArgumentLibrary.getArgBool(args, "vegan");
+        int potatoes = CLIArgumentLibrary.getArgInt(args, "count");
+        uselessFeatures = CLIArgumentLibrary.getArgBool(args, "uselessFeatures");
         if (uselessFeatures) System.out.println("uselessFeatures is enabled");
 
         PrintStream streamOut = System.out;
@@ -79,8 +98,8 @@ public class Potato {
                 System.setOut(streamOut);
                 System.out.println(
                         "Potatoes have been tested all tests are located in \"/tests/\"" +
-                        " Time took to test " + potatoesToTest * 5 + " potatoes: " +
-                        (System.currentTimeMillis() - time) + "ms");
+                                " Time took to test " + potatoesToTest * 5 + " potatoes: " +
+                                (System.currentTimeMillis() - time) + "ms");
                 return;
             }
         }
@@ -88,22 +107,39 @@ public class Potato {
         createPotatoes(isVegan, potatoes);
     }
 
-    private static Object getArg(String[] args, String argument) {
-        Object[] found = Arrays.stream(String.join(" ", String.join(" ", args)
-                .split(String.format("\\%s=(.*;)", argument))[0]
-                .split(argument + "="))
-                .split(" ")).filter((str) -> !str.equalsIgnoreCase("") && !str.startsWith("--")).toArray();
-        return found.length == 0 || found[0].equals("") ? null : found[0];
-    }
+    public static class CLIArgumentLibrary {
+        public static Object getArg(String[] args, String argument) {
+            Object[] found = Arrays.stream(String.join(" ", String.join(" ", args)
+                            .split(String.format("\\%s=(.*;)", "--" + argument))[0]
+                            .split(argument + "="))
+                    .split(" ")).filter((str) -> !str.equalsIgnoreCase("") && !str.startsWith("--")).toArray();
+            return found.length == 0 || found[0].equals("") ? null : found[0];
+        }
 
-    private static boolean getArgBool(String[] args, String argument) {
-        Object arg = getArg(args, argument);
-        return arg != null && Boolean.parseBoolean((String) arg);
-    }
+        public static boolean getArgBool(String[] args, String argument) {
+            Object arg = getArg(args, argument);
+            return arg != null && Boolean.parseBoolean((String) arg);
+        }
 
-    private static int getArgInt(String[] args, String argument) {
-        Object arg = getArg(args, argument);
-        return arg == null ? 1 : Integer.parseInt((String)arg);
+        public static int getArgInt(String[] args, String argument) {
+            Object arg = getArg(args, argument);
+            return arg == null ? 1 : Integer.parseInt((String) arg);
+        }
+
+        public static long getArgLong(String[] args, String argument) {
+            Object arg = getArg(args, argument);
+            return arg == null ? 1 : Long.parseLong((String) arg);
+        }
+
+        public static double getArgDouble(String[] args, String argument) {
+            Object arg = getArg(args, argument);
+            return arg == null ? 1 : Double.parseDouble((String) arg);
+        }
+
+        public static String getArgString(String[] args, String argument) {
+            Object arg = getArg(args, argument);
+            return arg == null ? "" : (String) arg;
+        }
     }
 
     private static void createPotatoes(boolean isVegan, int potatoes) {

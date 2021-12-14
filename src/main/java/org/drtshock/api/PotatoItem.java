@@ -6,6 +6,7 @@ import org.drtshock.api.condiments.DelishCondiments;
 import org.drtshock.api.condiments.VeganCondiments;
 import org.drtshock.api.events.Cancellable;
 import org.drtshock.api.events.PotatoItemCreateEvent;
+import org.drtshock.api.events.PotatoItemRemoveCondimentEvent;
 import org.drtshock.exceptions.*;
 
 import java.io.IOException;
@@ -31,39 +32,33 @@ public class PotatoItem implements DelectableItem, Runnable {
     }
 
     public void calculate() {
-        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
-        if (!((Cancellable)event).isCanceled()) {
-            System.setOut(Potato.stream);
-            System.setErr(Potato.stream);
+        System.setOut(Potato.stream);
+        System.setErr(Potato.stream);
 
-            if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
-            try {
-                prepare();
+        if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
+        try {
+            if (prepare()) {
+                System.out.println("potato with id " + index + " created");
                 System.out.println("Of course Potato with id " + index + " is prepared and delicious.");
-            } catch (NotDeliciousException e) {
-                Potato.getPotatoItemErrorEvent().setErrorMessage("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
-                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
-                System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
-            } catch (VeganException e) {
-                System.out.println("--------");
-                Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
-                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
-                System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
+            } else {
+                System.out.println("potato with id " + index + " was not created? reason: The PotatoItemCreateEvent was canceled");
             }
+        } catch (NotDeliciousException e) {
+            Potato.getPotatoItemErrorEvent().setErrorMessage("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+            System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
+        } catch (VeganException e) {
+            System.out.println("--------");
+            Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+            System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
         }
+        Potato.getPotatoItemCreateEvent().setCanceled(false);
     }
 
     public PotatoItem(int index, boolean isVegan) {
         this.index = index;
         this.isVegan = isVegan;
-
-        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
-        event.execute(event);
-
-        if (!((Cancellable)event).isCanceled())
-            return;
-
-        System.out.println("potato with id " + index + " created");
     }
 
     /**
@@ -80,13 +75,23 @@ public class PotatoItem implements DelectableItem, Runnable {
      * is delicious. If it is not, a {@link NotDeliciousException} is thrown.
      *
      * @throws NotDeliciousException If the potato is not delicious
+     * @return isCanceled
      */
-    public void prepare() throws NotDeliciousException, VeganException {
+    public boolean prepare() throws NotDeliciousException, VeganException {
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup", "horseradish");
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
-        this.listCondiments();
-        if (!this.isDelicious()) {
-            throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+
+        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
+        Potato.getPotatoItemCreateEvent().execute(event);
+        Potato.getPotatoItemCreateEvent().item = this;
+        if (!((Cancellable)event).isCanceled()) {
+            this.listCondiments();
+            if (!this.isDelicious()) {
+                throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -108,15 +113,40 @@ public class PotatoItem implements DelectableItem, Runnable {
      */
     public void addCondiment(String name) throws NotDeliciousException, VeganException {
         Condiment condiment = new Condiment(name, DelishCondiments.isDelish(name), VeganCondiments.isVegan(name));
-        if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
-        if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
-        if (!condiment.isVegan() && isVegan) {
-            VeganException error = new VeganException(condiment);
-            Potato.getPotatoItemErrorEvent().setErrorMessage(error.getMsg());
-            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
-            throw error;
+        Potato.getPotatoItemAddCondimentEvent().condimentName = name;
+        Potato.getPotatoItemAddCondimentEvent().condiment = condiment;
+        Potato.getPotatoItemAddCondimentEvent().execute(Potato.getPotatoItemAddCondimentEvent());
+        if (!Potato.getPotatoItemAddCondimentEvent().isCanceled()) {
+            if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
+            if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
+            if (!condiment.isVegan() && isVegan) {
+                VeganException error = new VeganException(condiment);
+                Potato.getPotatoItemErrorEvent().setErrorMessage(error.getMsg());
+                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+                Potato.getPotatoItemAddCondimentEvent().setCanceled(false);
+                throw error;
+            }
+            this.getCondiments().add(condiment);
         }
-        this.getCondiments().add(condiment);
+        Potato.getPotatoItemAddCondimentEvent().setCanceled(false);
+    }
+
+    /**
+     * Removes condiment from the potato.
+     *
+     * @param name Name of the condiment to remove
+     */
+    public void removeCondiment(String name) {
+        if (this.getCondiments().size() <= 0) return;
+
+        PotatoItemRemoveCondimentEvent event = Potato.getPotatoItemRemoveCondimentEvent();
+        Potato.getPotatoItemAddCondimentEvent().condimentName = name;
+        Potato.getPotatoItemRemoveCondimentEvent().execute(event);
+        if (!Potato.getPotatoItemRemoveCondimentEvent().isCanceled()) {
+            Condiment condiment = (Condiment) this.getCondiments().stream().filter((cond) -> cond.getName().equalsIgnoreCase(name)).toArray()[0];
+            this.getCondiments().remove(condiment);
+        }
+        Potato.getPotatoItemRemoveCondimentEvent().setCanceled(false);
     }
 
     /**
