@@ -22,7 +22,7 @@ public class Potato {
         streamOut = System.out;
         stream = System.out;
 
-        boolean isVegan = args.length >= 1 && args[0].equals("--vegan");
+        boolean isVegan = args.length >= 1 && args[0].equalsIgnoreCase("--vegan");
         int potatoes =
                 args.length >= 3 ? Integer.parseInt(args[2])
                         : args.length >= 2 ? Integer.parseInt(args[1])
