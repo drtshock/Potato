@@ -22,6 +22,10 @@ public class PotatoItem implements DelectableItem, Runnable {
      */
     @Override
     public void run() {
+        calculate();
+    }
+
+    public void calculate() {
         System.setOut(Potato.stream);
         System.setErr(Potato.stream);
 

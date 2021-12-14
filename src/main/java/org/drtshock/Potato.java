@@ -55,17 +55,18 @@ public class Potato {
     }
 
     private static void createPotatoes(boolean isVegan, int potatoes) {
-        for (int i = 1; i <= potatoes; i++) {
-            items.add(createPotato(i, isVegan));
-        }
+        items.clear();
+        for (int i = 1; i <= potatoes; i++) items.add(createPotato(i, isVegan));
 
         for (PotatoItem item : items) {
-            Thread thread = new Thread(item);
-            thread.start();
+//            Thread thread = new Thread(item);
+//            thread.start();
+
+            item.calculate();
 
             // this is here so each thread actually runs after each other as
             // it will be out of sync otherwise.
-            while (thread.isAlive()); // the threading is probably useless so i probably will remove it if i decide to optimise
+            // while (thread.isAlive()); // the threading is probably useless so i probably will remove it if i decide to optimise
         }
     }
 
