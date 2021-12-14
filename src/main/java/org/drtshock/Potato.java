@@ -1,9 +1,10 @@
 package org.drtshock;
 
-import org.drtshock.api.Cancellable;
-import org.drtshock.api.Event;
+//import org.drtshock.api.Cancellable;
+//import org.drtshock.api.Event;
 import org.drtshock.api.PotatoItem;
 import org.drtshock.api.events.PotatoItemCreateEvent;
+import org.drtshock.api.events.PotatoItemErrorEvent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,11 +21,30 @@ public class Potato {
         return potatoItemCreateEvent;
     }
 
+    private static final PotatoItemErrorEvent potatoItemErrorEvent = new PotatoItemErrorEvent();
+    public static PotatoItemErrorEvent getPotatoItemErrorEvent() {
+        return potatoItemErrorEvent;
+    }
+
+//    public static class PotatoItemErrorTestEvent implements Event {
+//        @Override
+//        public boolean execute(Event event) {
+//            System.out.println("Yo PotatoItemErrorTestEvent here: " + ((PotatoItemErrorEvent)event).getErrorMessage());
+//
+//            return true;
+//        }
+//
+//        @Override
+//        public void addHandle(Event handle) {}
+//    }
+
     public static void main(String[] args) {
 //        Debugging
 //        for(int i = 0; i<args.length; i++) {
 //            System.out.println("args[" + i + "]: " + args[i]);
 //        }
+
+        // getPotatoItemErrorEvent().addHandle(new PotatoItemErrorTestEvent());
 
         PrintStream streamOut = System.out;
         stream = System.out;
@@ -42,7 +62,7 @@ public class Potato {
                 for (int i = 1; i <= potatoesToTest; i++) {
                     try {
                         File file = new File("tests/");
-                        file.mkdirs();
+                        boolean mkdirsResult = file.mkdirs();
                         stream = new PrintStream(file.getPath() + "/tests-output-" + i + ".txt");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();

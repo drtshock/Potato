@@ -37,9 +37,13 @@ public class PotatoItem implements DelectableItem, Runnable {
                 prepare();
                 System.out.println("Of course Potato with id " + index + " is prepared and delicious.");
             } catch (NotDeliciousException e) {
+                Potato.getPotatoItemErrorEvent().setErrorMessage("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
+                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
                 System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
             } catch (VeganException e) {
                 System.out.println("--------");
+                Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
+                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
                 System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
             }
         }
@@ -50,7 +54,9 @@ public class PotatoItem implements DelectableItem, Runnable {
         this.isVegan = isVegan;
 
         PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
-        if (!event.execute(event) && !((Cancellable)event).isCanceled())
+        event.execute(event);
+
+        if (!((Cancellable)event).isCanceled())
             return;
 
         System.out.println("potato with id " + index + " created");
@@ -75,7 +81,9 @@ public class PotatoItem implements DelectableItem, Runnable {
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
         this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+        if (!this.isDelicious()) {
+            throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
+        }
     }
 
     /**
@@ -99,7 +107,10 @@ public class PotatoItem implements DelectableItem, Runnable {
         if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
         if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
         if (!condiment.isVegan() && isVegan) {
-            throw new VeganException(condiment);
+            VeganException error = new VeganException(condiment);
+            Potato.getPotatoItemErrorEvent().setErrorMessage(error.getMsg());
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+            throw error;
         }
         this.getCondiments().add(condiment);
     }
@@ -142,6 +153,8 @@ public class PotatoItem implements DelectableItem, Runnable {
             return inOven == 200;
         } catch (IOException ex) {
             //ex.printStackTrace(); // throw error p:
+            Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + ex.getMessage() + "\n--------\n");
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
             System.out.println("--------");
             System.err.println("error in potato " + index + "\n" + ex.getMessage() + "\n--------\n");
             throw new OvenException(ex);
@@ -188,6 +201,8 @@ public class PotatoItem implements DelectableItem, Runnable {
             return this.hasBeenBoiledInWater();
         } catch (BurntException e) {
             System.out.println("--------");
+            Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
             System.err.println("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
             return false;
         }
