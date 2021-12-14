@@ -16,6 +16,8 @@ public class Potato {
     public static PrintStream stream;
     private static final List<PotatoItem> items = new ArrayList<>();
 
+    public static boolean uselessFeatures = false;
+
     private static final PotatoItemCreateEvent potatoItemCreateEvent = new PotatoItemCreateEvent();
     public static PotatoItemCreateEvent getPotatoItemCreateEvent() {
         return potatoItemCreateEvent;
@@ -51,9 +53,12 @@ public class Potato {
 
         boolean isVegan = args.length >= 1 && args[0].equalsIgnoreCase("--vegan");
         int potatoes =
-                args.length >= 3 ? Integer.parseInt(args[2])
+                isVegan ? Integer.parseInt(args[2])
                         : args.length >= 2 ? Integer.parseInt(args[1])
                         : 1;
+        uselessFeatures = args.length >= 1 && (args[0].equalsIgnoreCase("--vegan") ? args[3].equalsIgnoreCase("--uselessfeatures") || args[1].equalsIgnoreCase("--uselessfeatures") : args[0].equalsIgnoreCase("--uselessfeatures"));
+
+        if (uselessFeatures) System.out.println("uselessFeatures is enabled");
 
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("--tests")) {

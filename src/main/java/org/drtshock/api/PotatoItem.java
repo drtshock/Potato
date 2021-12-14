@@ -142,12 +142,17 @@ public class PotatoItem implements DelectableItem, Runnable {
     public boolean isPutIntoOven() throws OvenException, BurntException {
         try {
             long begin = System.currentTimeMillis();
-            final URL url = new URL("https://www.google.com/search?q=potato");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.addRequestProperty("User-Agent", "Potato/2.0.0");
-            connection.connect();
-            int inOven = connection.getResponseCode();
+            int inOven = -1;
+            if (Potato.uselessFeatures) {
+                final URL url = new URL("https://www.google.com/search?q=potato");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.addRequestProperty("User-Agent", "Potato/2.0.0");
+                connection.connect();
+                inOven = connection.getResponseCode();
+            } else {
+                inOven = 200;
+            }
             long bakeTime = (System.currentTimeMillis() - begin);
             if (bakeTime > 1100) throw new BurntException(bakeTime, NotDeliciousReason.OVERCOOKED);
             return inOven == 200;
