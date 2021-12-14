@@ -28,10 +28,10 @@ public class Potato {
                         : args.length >= 2 ? Integer.parseInt(args[1])
                         : 1;
 
-        if (args.length == 1) {
+        if (args.length == 2) {
             if (args[0].equalsIgnoreCase("--tests")) {
                 long time = System.currentTimeMillis();
-                int potatoesToTest = 1;
+                int potatoesToTest = Integer.parseInt(args[1]);
                 for (int i = 1; i <= potatoesToTest; i++) {
                     try {
                         File file = new File("tests/");
@@ -46,7 +46,7 @@ public class Potato {
 
                 System.setOut(streamOut);
                 System.out.println("Potatoes have been tested all tests are located in \"/tests/\"" +
-                        " Time took to test " + potatoesToTest + " potatoes: " + (System.currentTimeMillis() - time) + "ms");
+                        " Time took to test " + potatoesToTest * 5 + " potatoes: " + (System.currentTimeMillis() - time) + "ms");
 
                 return;
             }
