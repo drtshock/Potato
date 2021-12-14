@@ -3,8 +3,9 @@ package org.drtshock.api;
 public class VeganCondiments {
     private static final String[] veganFoods =
             new String[]{
-                    "butter", "pepper", "salt",
-                    "tabasco", "tomatoes", "onion"}; // add more vegan foods here if you want more vegan toppings!
+                    "chives", "butter", "pepper",
+                    "salt", "tabasco", "tomatoes",
+                    "onion"}; // add more vegan foods here if you want more vegan toppings!
 
     /**
      * determines that food is vegan

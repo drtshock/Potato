@@ -1,5 +1,6 @@
 package org.drtshock.api;
 
+import org.drtshock.Potato;
 import org.drtshock.exceptions.*;
 
 import java.io.IOException;
@@ -21,6 +22,9 @@ public class PotatoItem implements DelectableItem, Runnable {
      */
     @Override
     public void run() {
+        System.setOut(Potato.stream);
+        System.setErr(Potato.stream);
+
         if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
         try {
             prepare();
@@ -29,7 +33,7 @@ public class PotatoItem implements DelectableItem, Runnable {
             System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
         } catch (VeganException e) {
             System.out.println("--------");
-            System.err.println("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+            System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
         }
     }
 
@@ -83,7 +87,7 @@ public class PotatoItem implements DelectableItem, Runnable {
         if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
         if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
         if (!condiment.isVegan() && isVegan) {
-            throw new VeganException();
+            throw new VeganException(condiment);
         }
         this.getCondiments().add(condiment);
     }

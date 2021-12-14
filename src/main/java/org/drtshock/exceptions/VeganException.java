@@ -1,7 +1,15 @@
 package org.drtshock.exceptions;
 
+import org.drtshock.api.Condiment;
+
 public class VeganException extends Exception {
-    public VeganException() {
-        System.out.println("A non vegan condiment was about to be added, but potato is vegan?");
+    private String msg;
+
+    public VeganException(Condiment condiment) {
+        this.msg = "condiment name: " + condiment.getName() + ", vegan: " + condiment.isVegan() + "\nA non vegan condiment was about to be added, but potato is vegan?";
+    }
+
+    public String getMsg() {
+        return msg;
     }
 }
