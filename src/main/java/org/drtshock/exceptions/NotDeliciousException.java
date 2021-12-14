@@ -1,14 +1,13 @@
-package org.drtshock;
+package org.drtshock.exceptions;
 
 /**
  * An exception to describe that the potato isn't delicious!
  */
 public class NotDeliciousException extends Exception {
-
     /**
-     * The reason for non-deliciousness.
+     * * The reason for non-deliciousness.
      */
-    private NotDeliciousReason notDeliciousReason;
+    private final NotDeliciousReason notDeliciousReason;
 
     public NotDeliciousException(NotDeliciousReason notDeliciousReason) {
         this.notDeliciousReason = notDeliciousReason;

@@ -1,211 +1,39 @@
 package org.drtshock;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.drtshock.api.PotatoItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A delicious tuber that is eaten by various peoples all over the world.
- */
-public class Potato implements Tuber {
-
-    private final boolean isVegan;
-    private final List<Condiment> condiments = new ArrayList<>();
+public class Potato {
+    private static final List<PotatoItem> items = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
-        if (potato.isVegan) System.out.println("This potato is vegan.");
-        try {
-            potato.prepare();
-            System.out.println("Of course Potato is prepared and delicious.");
-        } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
+        boolean isVegan = args.length == 1 && args[0].equals("--vegan");
+        int potatoes =
+                args.length == 3 ? Integer.parseInt(args[2].split("--count ")[0])
+                : args.length == 2 ? Integer.parseInt(args[1])
+                : 1;
+
+        for (int i = 0; i <= potatoes; i++) {
+            items.add(createPotato(i, isVegan));
         }
-    }
 
-    public Potato(boolean isVegan) {
-        this.isVegan = isVegan;
-    }
+        for (PotatoItem item : items) {
+            Thread thread = new Thread(item);
+            thread.start();
 
-    /**
-     * Gets the condiments on this potato.
-     *
-     * @return Mutable list of condiments
-     */
-    public List<Condiment> getCondiments() {
-        return this.condiments;
-    }
-
-    /**
-     * Prepares the potato for consumption. Adds various condiments and prints them to stdout. Ensures that the potato
-     * is delicious. If it is not, a {@link NotDeliciousException} is thrown.
-     *
-     * @throws NotDeliciousException If the potato is not delicious
-     */
-    public void prepare() throws NotDeliciousException {
-        this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
-        if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
-        this.listCondiments();
-        if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
-    }
-
-    /**
-     * Adds condiments to the potato.
-     *
-     * @param names Names of the condiments to add
-     */
-    public void addCondiments(String... names) throws NotDeliciousException {
-        for (String condimentName : names) {
-            Condiment condiment = new Condiment(condimentName, true);
-            if (!condiment.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.NOT_DELICIOUS_CONDIMENT);
-            if (condiment.isExpired()) throw new NotDeliciousException(NotDeliciousReason.EXPIRED_CONDIMENT);
-            this.getCondiments().add(condiment);
+            // this is here so each thread actually runs after each other as
+            // it will be out of sync otherwise.
+            while (thread.isAlive());
         }
     }
 
     /**
-     * Prints the names of the condiments on this potato to stdout.
-     *
-     * @see #getCondiments()
+     * create new potato
+     * @return PotatoItem.class
      */
-    public void listCondiments() {
-        for (Condiment condiment : this.getCondiments()) {
-            System.out.println(condiment.getName());
-        }
+    private static PotatoItem createPotato(int index, boolean isVegan) {
+        return new PotatoItem(index, isVegan);
     }
-
-    /**
-     * Checks if the potato is put into the oven.
-     *
-     * @return true if potato is in the oven, false if otherwise
-     * @throws OvenException if the oven encounters an internal exception
-     */
-    public boolean isPutIntoOven() throws OvenException, BurntException {
-        try {
-            long begin = System.currentTimeMillis();
-            final URL url = new URL("https://www.google.com/search?q=potato");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.addRequestProperty("User-Agent", "Potato/2.0.0");
-            connection.connect();
-            int inOven = connection.getResponseCode();
-            long bakeTime = (System.currentTimeMillis() - begin);
-            if (bakeTime > 1100) throw new BurntException(bakeTime);
-            return inOven == 200;
-        } catch (IOException ex) {
-            throw new OvenException(ex);
-        }
-    }
-
-    /**
-     * Checks if this potato is baked. Returns the result of {@link #isPutIntoOven()}.
-     *
-     * @return true if this potato is baked, false if otherwise
-     */
-    public boolean isBaked() {
-        try {
-            return this.isPutIntoOven();
-        } catch (OvenException | BurntException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks if the potato is succesfully boiled at the right amount of degrees.
-     *
-     * @return true if the potato has succesfully been boiled, false if otherwise
-     * @throws BurntException if the potato has been burned during the process of cooking
-     */
-    public boolean hasBeenBoiledInWater() throws BurntException {
-        int waterDegrees = (int) (Math.random() * 200);
-        System.out.println("Trying to boil potato at " + waterDegrees + " degrees.");
-        if (waterDegrees < 70) {
-            return false;
-        } else if (waterDegrees > 130) {
-            throw new BurntException(waterDegrees);
-        }
-        return true;
-    }
-
-    /**
-     * Checks if this potato is cooked. Returns the result of {@link #hasBeenBoiledInWater()}.
-     *
-     * @return true if this potato is baked, false if otherwise
-     */
-    public boolean isBoiled() {
-        try {
-            return this.hasBeenBoiledInWater();
-        } catch (BurntException e) {
-            return false;
-        }
-    }
-
-    /**
-     * Checks if this potato is delicious. Returns the result of {@link #isBaked()}.
-     *
-     * @return true if this potato is delicious, false if otherwise
-     */
-    @Override
-    public boolean isDelicious() {
-        return this.isBaked() || this.isBoiled();
-    }
-
-    /**
-     * Propagates a new potato.
-     *
-     * @return A new potato
-     */
-    @Override
-    public Tuber propagate() {
-        return new Potato(this.isVegan);
-    }
-
-    /**
-     * A type of food added to tubers.
-     */
-    private class Condiment {
-        private final String name;
-        private final boolean delicious;
-        private final boolean expired;
-
-        public Condiment(String name, boolean delicious, boolean expired) {
-            this.name = name;
-            this.delicious = delicious;
-            this.expired = expired;
-        }
-
-        public Condiment(String name, boolean delicious) {
-            this(name, delicious, Math.random() * 100 < 3);
-        }
-
-        /**
-         * Returns if this condiment is delicious or not.
-         *
-         * @return true if delicious, false if otherwise
-         */
-        public boolean isDelicious() {
-            return this.delicious;
-        }
-
-        /**
-         * Returns if this condiment is expired or not.
-         *
-         * @return true if expired, false if otherwise
-         */
-        public boolean isExpired() {
-            return expired;
-        }
-
-        /**
-         * Gets the name of this condiment.
-         *
-         * @return Name
-         */
-        public String getName() {
-            return this.name;
-        }
-    }
-
 }

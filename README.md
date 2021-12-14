@@ -4,8 +4,9 @@ Potato
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
 If you fork this you can say that you forked a potato.
+**[Heres how you can perfect your potato!](recipe.txt)**
 
-[contributors](Contributors.md)
+**[Contributors](Contributors.md)**
 
 ![potato](http://i.imgur.com/dRnvRZZ.jpg)
 
