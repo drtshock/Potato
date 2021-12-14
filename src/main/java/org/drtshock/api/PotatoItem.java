@@ -1,6 +1,7 @@
 package org.drtshock.api;
 
 import org.drtshock.Potato;
+import org.drtshock.api.events.PotatoItemCreateEvent;
 import org.drtshock.exceptions.*;
 
 import java.io.IOException;
@@ -31,6 +32,9 @@ public class PotatoItem implements DelectableItem, Runnable {
 
         if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
         try {
+            PotatoItemCreateEvent event = new PotatoItemCreateEvent();
+            if (!event.execute(event)) return;
+
             prepare();
             System.out.println("Of course Potato with id " + index + " is prepared and delicious.");
         } catch (NotDeliciousException e) {
