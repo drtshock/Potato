@@ -27,27 +27,31 @@ public class PotatoItem implements DelectableItem, Runnable {
     }
 
     public void calculate() {
-        System.setOut(Potato.stream);
-        System.setErr(Potato.stream);
+        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
+        if (!((Cancellable)event).isCanceled()) {
+            System.setOut(Potato.stream);
+            System.setErr(Potato.stream);
 
-        if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
-        try {
-            PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
-            if (!event.execute(event)) return;
-
-            prepare();
-            System.out.println("Of course Potato with id " + index + " is prepared and delicious.");
-        } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
-        } catch (VeganException e) {
-            System.out.println("--------");
-            System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
+            if (isVegan) System.out.println("Potato with id " + index + " is vegan.");
+            try {
+                prepare();
+                System.out.println("Of course Potato with id " + index + " is prepared and delicious.");
+            } catch (NotDeliciousException e) {
+                System.err.println("Fatal error! How could Potato with id " + index + " not be delicious?\nReason: " + e.getReason() + "\n");
+            } catch (VeganException e) {
+                System.out.println("--------");
+                System.err.println("error in potato " + index + "\n" + e.getMsg() + "\n--------\n");
+            }
         }
     }
 
     public PotatoItem(int index, boolean isVegan) {
         this.index = index;
         this.isVegan = isVegan;
+
+        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
+        if (!event.execute(event) && !((Cancellable)event).isCanceled())
+            return;
 
         System.out.println("potato with id " + index + " created");
     }

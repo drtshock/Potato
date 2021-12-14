@@ -1,5 +1,7 @@
 package org.drtshock;
 
+import org.drtshock.api.Cancellable;
+import org.drtshock.api.Event;
 import org.drtshock.api.PotatoItem;
 import org.drtshock.api.events.PotatoItemCreateEvent;
 
