@@ -3,8 +3,6 @@ Potato
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
-[![Java CI with Maven](https://github.com/GStudiosX2/Potato/actions/workflows/maven.yml/badge.svg)](https://github.com/GStudiosX2/Potato/actions/workflows/maven.yml)
-
 If you fork this you can say that you forked a potato.
 **[Heres how you can perfect your potato!](recipe.txt)**
 
