@@ -1,0 +1,82 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: ncipollo/release-action@v1.9.0
+      - name: Create Release
+      # You may pin to the exact commit or the version.
+      # uses: ncipollo/release-action@40bb172bd05f266cf9ba4ff965cb61e9ee5f6d01
+      with:
+          # An optional flag which indicates if we should update a release if it already exists. Defaults to false.
+          -  allowUpdates: # optional, default is 
+          # An optional flag which indicates if artifact read or upload errors should fail the build.
+          -  artifactErrorsFailBuild: # optional, default is 
+          # An optional set of paths representing artifacts to upload to the release. This may be a single path or a comma delimited list of paths (or globs)
+          -  artifact: # optional, default is 
+          # An optional set of paths representing artifacts to upload to the release. This may be a single path or a comma delimited list of paths (or globs)
+          -  artifacts: # optional, default is 
+          # The content type of the artifact. Defaults to raw
+          -  artifactContentType: # optional, default is 
+          # An optional body for the release.
+          -  body: # optional, default is 
+          # An optional body file for the release. This should be the path to the file
+          -  bodyFile: # optional, default is 
+          # An optional commit reference. This will be used to create the tag if it does not exist.
+          -  commit: # optional, default is 
+          # When provided this will generate a discussion of the specified category. The category must exist otherwise this will cause the action to fail. This isn't used with draft releases
+          -  discussionCategory: # optional, default is 
+          # Optionally marks this release as a draft release. Set to true to enable.
+          -  draft: # optional, default is 
+          # Indicates if release notes should be automatically generated.
+          -  generateReleaseNotes: # optional, default is false
+          # An optional name for the release. If this is omitted the tag will be used
+          # Indicates if the release body should be omitted.
+          -  omitBody: # optional, default is false
+          # Indicates if the release body should be omitted during updates. The body will still be applied for newly created releases. This will preserve the existing body during updates.
+          -  omitBodyDuringUpdate: # optional, default is false
+          # Indicates if the release name should be omitted.
+          -  omitName: # optional, default is false
+          # Indicates if the release name should be omitted during updates. The name will still be applied for newly created releases. This will preserve the existing name during updates.
+          -  omitNameDuringUpdate: # optional, default is false
+          # Indicates if the prerelease flag should be omitted during updates. The prerelease flag will still be applied for newly created releases. This will preserve the existing prerelease state during updates.
+          -  omitPrereleaseDuringUpdate: # optional, default is false
+          # Optionally specify the owner of the repo where the release should be generated. Defaults to current repo's owner.
+          -  owner: # optional, default is 
+          # Optionally marks this release as prerelease. Set to true to enable.
+          -  prerelease: # optional, default is 
+          # Indicates if existing release artifacts should be removed, Defaults to false.
+          -  removeArtifacts: # optional, default is false
+          # Indicates if existing release artifacts should be replaced. Defaults to true.
+          -  replacesArtifacts: # optional, default is true
+          # Optionally specify the repo where the release should be generated. Defaults to current repo
+          -  repo: # optional, default is 
+          # An optional tag for the release. If this is omitted the git ref will be used (if it is a tag).
+          -  tag: 2.0.0  # optional, default is 
+          # The Github token.
+          -  token: # optional, default is ${{ github.token }}
