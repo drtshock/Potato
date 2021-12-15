@@ -3,6 +3,8 @@ Potato
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
+[![CircleCI](https://circleci.com/gh/GStudiosX2/Potato/tree/master.svg?style=svg)](https://circleci.com/gh/GStudiosX2/Potato/tree/master)
+
 If you fork this you can say that you forked a potato.
 **[Heres how you can perfect your potato!](recipe.txt)**
 
