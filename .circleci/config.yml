@@ -40,7 +40,7 @@ workflows:
       - gh/release:
           notes-file: changelog.md
           tag: 2.0.0
-          title: The initial release
+          title: Potato - 2.0.0
           requires:
             - build-and-test
           context:
