@@ -13,7 +13,6 @@ import java.io.PrintStream;
 
 public class Potato {
     public static PrintStream stream;
-    public static boolean uselessFeatures = false;
 
     /**
      * Events
@@ -54,14 +53,6 @@ public class Potato {
                 System.out.println("./" + path
                         + " --vegan=true");
                 System.out.println("./" + path
-                        + " --uselessFeatures=true");
-                System.out.println("./" + path
-                        + " --uselessFeatures=true --vegan=true");
-                System.out.println("./" + path
-                        + " --uselessFeatures=true --vegan=true --count=<number>");
-                System.out.println("./" + path
-                        + " --uselessFeatures=true --count=<number>");
-                System.out.println("./" + path
                         + " --vegan=true --count=<number>");
                 System.out.println("./" + path
                         + " --count=<number>");
@@ -72,8 +63,6 @@ public class Potato {
 
         boolean isVegan = Api.CLIArgumentLibrary.getArgBool(args, "vegan");
         int potatoes = Api.CLIArgumentLibrary.getArgInt(args, "count");
-        uselessFeatures = Api.CLIArgumentLibrary.getArgBool(args, "uselessFeatures");
-        if (uselessFeatures) System.out.println("uselessFeatures is enabled");
 
         PrintStream streamOut = System.out;
         stream = System.out;
@@ -109,7 +98,7 @@ public class Potato {
         createPotatoes(isVegan, potatoes);
     }
 
-    private static void createPotatoes(boolean isVegan, int potatoes) {
+    public static void createPotatoes(boolean isVegan, int potatoes) {
         for (int i = 1; i <= potatoes; i++) createPotato(i, isVegan).calculate();
     }
 
@@ -117,7 +106,7 @@ public class Potato {
      * create new potato
      * @return PotatoItem.class
      */
-    private static PotatoItem createPotato(int index, boolean isVegan) {
+    public static PotatoItem createPotato(int index, boolean isVegan) {
         return new PotatoItem(index, isVegan);
     }
 }

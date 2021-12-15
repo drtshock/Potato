@@ -58,4 +58,14 @@ public class Condiment implements DelectableItem, CanExpire {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public String toString() {
+        return "Condiment{" +
+                "name='" + name + '\'' +
+                ", delicious=" + delicious +
+                ", expired=" + expired +
+                ", isVegan=" + isVegan +
+                "}\n";
+    }
 }

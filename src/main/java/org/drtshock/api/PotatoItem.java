@@ -5,13 +5,9 @@ import org.drtshock.api.condiments.Condiment;
 import org.drtshock.api.condiments.DelishCondiments;
 import org.drtshock.api.condiments.VeganCondiments;
 import org.drtshock.api.events.Cancellable;
-import org.drtshock.api.events.PotatoItemCreateEvent;
 import org.drtshock.api.events.PotatoItemRemoveCondimentEvent;
 import org.drtshock.exceptions.*;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +18,8 @@ public class PotatoItem implements DelectableItem, Runnable {
     private final int index;
     private final boolean isVegan;
     private final List<Condiment> condiments = new ArrayList<>();
+
+    private boolean isBaked, isBoiled;
 
     /**
      * Multithreading capabilities !
@@ -81,14 +79,21 @@ public class PotatoItem implements DelectableItem, Runnable {
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup", "horseradish");
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
 
-        PotatoItemCreateEvent event = Potato.getPotatoItemCreateEvent();
-        Potato.getPotatoItemCreateEvent().execute(event);
-        Potato.getPotatoItemCreateEvent().item = this;
-        if (!((Cancellable)event).isCanceled()) {
+        try {
+            isBoiled = boil();
+            isBaked = bake();
+        } catch (OvenException | BurntException e) {
+            Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+            System.out.println("--------");
+            System.err.println("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+        }
+
+        Potato.getPotatoItemCreateEvent().setItem(this);
+        Potato.getPotatoItemCreateEvent().execute(Potato.getPotatoItemCreateEvent());
+        if (!((Cancellable)Potato.getPotatoItemCreateEvent()).isCanceled()) {
             this.listCondiments();
-            if (!this.isDelicious()) {
-                throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
-            }
+            if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
             return true;
         } else {
             return false;
@@ -173,78 +178,71 @@ public class PotatoItem implements DelectableItem, Runnable {
      * @return true if potato is in the oven, false if otherwise
      * @throws OvenException if the oven encounters an internal exception
      */
-    public boolean isPutIntoOven() throws OvenException, BurntException {
+    public boolean bake() throws OvenException {
         try {
-            long begin = System.currentTimeMillis();
-            int inOven;
-            if (Potato.uselessFeatures) {
-                final URL url = new URL("https://www.google.com/search?q=potato");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.addRequestProperty("User-Agent", "Potato/2.0.0");
-                connection.connect();
-                inOven = connection.getResponseCode();
-            } else {
-                inOven = 200;
-            }
-            long bakeTime = (System.currentTimeMillis() - begin);
+            double bakeTime = Math.random() * 1400;
             if (bakeTime > 1100) throw new BurntException(bakeTime, NotDeliciousReason.OVERCOOKED);
-            return inOven == 200;
-        } catch (IOException ex) {
+            return true;
+        } catch (BurntException ex) {
             //ex.printStackTrace(); // throw error p:
             Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + ex.getMessage() + "\n--------\n");
             Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
             System.out.println("--------");
             System.err.println("error in potato " + index + "\n" + ex.getMessage() + "\n--------\n");
-            throw new OvenException(ex);
+            try {
+                throw new OvenException(ex);
+            } catch (OvenException e) {
+                Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+                Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
+                System.out.println("--------");
+                System.err.println("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
+            }
+            return false;
         }
     }
 
     /**
-     * Checks if this potato is baked. Returns the result of {@link #isPutIntoOven()}.
+     * Checks if this potato is baked. Returns the result of {@link #bake()}.
      *
      * @return true if this potato is baked, false if otherwise
      */
     public boolean isBaked() {
-        try {
-            return this.isPutIntoOven();
-        } catch (OvenException | BurntException e) {
-            return false;
-        }
+        return isBaked;
     }
 
     /**
-     * Checks if the potato is succesfully boiled at the right amount of degrees.
+     * Checks if the potato is successfully boiled at the right amount of degrees.
      *
-     * @return true if the potato has succesfully been boiled, false if otherwise
+     * @return true if the potato has successfully been boiled, false if otherwise
      * @throws BurntException if the potato has been burned during the process of cooking
      */
-    public boolean hasBeenBoiledInWater() throws BurntException {
-        int waterDegrees = (int) (Math.random() * 200);
-        System.out.println("Trying to boil potato with id " + index + " at " + waterDegrees + " degrees.");
-        if (waterDegrees < 70) {
+    public boolean boil() throws BurntException {
+        return boil((int) (Math.random() * 200));
+    }
+
+    /**
+     * Checks if the potato is successfully boiled at the right amount of degrees.
+     *
+     * @return true if the potato has successfully been boiled, false if otherwise
+     * @throws BurntException if the potato has been burned during the process of cooking
+     */
+    public boolean boil(int degrees) throws BurntException {
+        System.out.println("Trying to boil potato with id " + index + " at " + degrees + " degrees.");
+        if (degrees < 70) {
             return false;
-        } else if (waterDegrees > 130) {
-            throw new BurntException(waterDegrees, NotDeliciousReason.BOILED_AT_WRONG_DEGREES);
+        } else if (degrees > 130) {
+            throw new BurntException(degrees, NotDeliciousReason.BOILED_AT_WRONG_DEGREES);
         }
         return true;
     }
 
     /**
-     * Checks if this potato is cooked. Returns the result of {@link #hasBeenBoiledInWater()}.
+     * Checks if this potato is cooked. Returns the result of {@link #boil()}.
      *
      * @return true if this potato is baked, false if otherwise
      */
     public boolean isBoiled() {
-        try {
-            return this.hasBeenBoiledInWater();
-        } catch (BurntException e) {
-            System.out.println("--------");
-            Potato.getPotatoItemErrorEvent().setErrorMessage("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
-            Potato.getPotatoItemErrorEvent().execute(Potato.getPotatoItemErrorEvent());
-            System.err.println("error in potato " + index + "\n" + e.getMessage() + "\n--------\n");
-            return false;
-        }
+        return isBoiled;
     }
 
     /**
@@ -255,5 +253,16 @@ public class PotatoItem implements DelectableItem, Runnable {
     @Override
     public boolean isDelicious() {
         return this.isBaked() || this.isBoiled();
+    }
+
+    @Override
+    public String toString() {
+        return "PotatoItem{" +
+                "index=" + index +
+                ", isVegan=" + isVegan +
+                ", condiments=\n" + condiments +
+                ", isBaked=" + isBaked +
+                ", isBoiled=" + isBoiled +
+                "}\n";
     }
 }

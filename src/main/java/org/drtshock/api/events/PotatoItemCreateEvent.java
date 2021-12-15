@@ -1,7 +1,6 @@
 package org.drtshock.api.events;
 
 import org.drtshock.api.DelectableItem;
-import org.drtshock.api.condiments.Condiment;
 
 import java.util.ArrayList;
 import java.util.List;

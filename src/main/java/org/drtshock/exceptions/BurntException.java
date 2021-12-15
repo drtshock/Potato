@@ -12,7 +12,7 @@ public class BurntException extends Exception {
         this.cause = cause;
     }
 
-    public BurntException(long bakeTime, NotDeliciousReason cause) {
+    public BurntException(double bakeTime, NotDeliciousReason cause) {
         super("Potato is badly burnt by baking for too long!! (" + bakeTime + "ms)");
         this.cause = cause;
     }
