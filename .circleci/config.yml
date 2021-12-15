@@ -9,6 +9,17 @@ orbs:
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.10
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Potato - 2.0.0"
+          command: |
+            VERSION=$(my-binary --version)
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
   build-and-test:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
