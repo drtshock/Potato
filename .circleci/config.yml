@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  gh: circleci/github-cli@1.0
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -34,3 +37,15 @@ workflows:
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build-and-test
+      - gh/release:
+          notes-file: changelog.md
+          tag: 2.0.0
+          title: The initial release
+          requires:
+            - build-and-test
+          context:
+            - GITHUB_CREDS
+          filters:
+            branches:
+              only:
+                - master
