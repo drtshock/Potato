@@ -48,6 +48,7 @@ public class Potato implements Tuber {
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
         this.listCondiments();
+        if (this.isPoisoned()) System.out.println("Potato is poisoned!");
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
 
@@ -110,6 +111,20 @@ public class Potato implements Tuber {
         } catch (OvenException | BurntException e) {
             return false;
         }
+    }
+
+    /**
+     * If the concondiments are expired is the Potato poisoned.
+     *
+     * @see #getCondiments()
+     */
+    public boolean isPoisoned() {
+    	for (Condiment condiment : this.getCondiments()) {
+    		if (condiment.isExpired()) {
+    			return true;
+    		}
+    	}
+		return false;
     }
 
     /**
