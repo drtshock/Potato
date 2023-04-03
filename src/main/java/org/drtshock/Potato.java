@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
@@ -48,6 +49,7 @@ public class Potato implements Tuber {
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
         this.listCondiments();
+        if (!this.hasBeenWashed()) throw new NotDeliciousException(NotDeliciousReason.NOT_WASHED);
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
 
@@ -160,6 +162,35 @@ public class Potato implements Tuber {
     @Override
     public Tuber propagate() {
         return new Potato(this.isVegan);
+    }
+
+    public boolean hasBeenWashed() {
+        String washMethod = "";
+        float[] washTimeRange = {0, 0}; // in seconds
+        switch (new Random().nextInt(3)) {
+            case 0:
+                washMethod = "quick rinse";
+                washTimeRange[0] = 10;
+                washTimeRange[1] = 15;
+                break;
+            case 1:
+                washMethod = "scrubbing";
+                washTimeRange[0] = 30;
+                washTimeRange[1] = 60;
+                break;
+            case 2:
+                washMethod = "soaking";
+                washTimeRange[0] = 300;
+                washTimeRange[1] = 600;
+                break;
+        }
+        float washTime = (float) (Math.random() * washTimeRange[1]); // in seconds
+        System.out.println("wash method: " + washMethod);
+        System.out.println("wash time: " + washTime);
+        if (washTime <= washTimeRange[0]) { // not washed long enough
+            return false;
+        }
+        return true;
     }
 
     /**
