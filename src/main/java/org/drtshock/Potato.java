@@ -47,10 +47,9 @@ public class Potato implements Tuber {
      *
      * @throws NotDeliciousException If the potato is not delicious
      */
-    public void prepare() throws NotDeliciousException {
+    public void prepare() throws NotDeliciousException, BurntException {
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
-        this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
 

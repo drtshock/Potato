@@ -11,9 +11,9 @@ public class Main {
 		if (potato.isVegan()) System.out.println("This potato is vegan.");
 		try {
 			potato.prepare();
+			potato.listCondiments();
 			System.out.println("Of course Potato is prepared and delicious.");
-		} catch (
-				NotDeliciousException e) {
+		} catch (NotDeliciousException e) {
 			System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
 		}
 	}
