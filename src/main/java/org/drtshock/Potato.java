@@ -19,19 +19,12 @@ public class Potato implements Tuber {
     private final boolean isVegan;
     private final List<Condiment> condiments = new ArrayList<>();
 
-    public static void main(String[] args) {
-        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
-        if (potato.isVegan) System.out.println("This potato is vegan.");
-        try {
-            potato.prepare();
-            System.out.println("Of course Potato is prepared and delicious.");
-        } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
-        }
-    }
-
     public Potato(boolean isVegan) {
         this.isVegan = isVegan;
+    }
+
+    public boolean isVegan() {
+        return this.isVegan;
     }
 
     /**
