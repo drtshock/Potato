@@ -1,5 +1,10 @@
 package org.drtshock;
 
+import org.drtshock.exceptions.BurntException;
+import org.drtshock.exceptions.NotDeliciousException;
+import org.drtshock.types.NotDeliciousReason;
+import org.drtshock.exceptions.OvenException;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
