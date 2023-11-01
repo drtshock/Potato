@@ -23,6 +23,11 @@ public class Potato implements Tuber {
         this.isVegan = isVegan;
     }
 
+    /**
+     * Checks if this potato is vegan.
+     *
+     * @return true if this potato is vegan, false if otherwise
+     */
     public boolean isVegan() {
         return this.isVegan;
     }
