@@ -170,7 +170,7 @@ public class Potato implements Tuber {
     /**
      * A type of food added to tubers.
      */
-    private class Condiment {
+    private static class Condiment {
         private final String name;
         private final boolean delicious;
         private final boolean expired;
