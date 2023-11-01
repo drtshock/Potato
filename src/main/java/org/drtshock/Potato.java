@@ -79,6 +79,16 @@ public class Potato implements Tuber {
     }
 
     /**
+     * Turns this potato into fries.
+     *
+     * @return A new {@link Fries} object
+     */
+    public Fries turnIntoFries() {
+        System.out.println("Turning potato into fries...");
+        return new Fries(isVegan);
+    }
+
+    /**
      * Checks if the potato is put into the oven.
      *
      * @return true if potato is in the oven, false if otherwise
