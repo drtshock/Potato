@@ -1,4 +1,4 @@
-package org.drtshock;
+package org.drtshock.exceptions;
 
 /**
  * An exception to describe that our potato isn't cooked properly!
