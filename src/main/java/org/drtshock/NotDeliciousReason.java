@@ -1,4 +1,4 @@
-package org.drtshock.exceptions;
+package org.drtshock;
 
 /**
  * Different ways the potato can be not delicious

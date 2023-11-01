@@ -1,9 +1,5 @@
 package org.drtshock;
 
-import org.drtshock.exceptions.BurntException;
-import org.drtshock.exceptions.NotDeliciousException;
-import org.drtshock.exceptions.NotDeliciousReason;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,8 +20,7 @@ public class Potato implements Tuber {
         try {
             potato.prepare();
             System.out.println("Of course Potato is prepared and delicious.");
-        } catch (
-		        NotDeliciousException e) {
+        } catch (NotDeliciousException e) {
             System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
         }
     }
