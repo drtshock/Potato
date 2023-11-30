@@ -3,9 +3,9 @@ Potato
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
-If you fork this you can say that you forked a potato.
+If you fork this you can say that you forked a Brocoli.
 
-![potato](http://i.imgur.com/dRnvRZZ.jpg)
+![potato](https://www.gimmesomeoven.com/wp-content/uploads/2017/03/How-To-Cut-Broccoli.jpg)
 
 Forking potatoes is an ancient and well-mannered tradition.
 
