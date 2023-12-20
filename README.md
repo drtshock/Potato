@@ -3,9 +3,9 @@ Potato
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
 
-If you fork this you can say that you forked a potato.
+If you fork this you can say that you forked a Potato.
 
-![potato](http://i.imgur.com/dRnvRZZ.jpg)
+![Potato](http://i.imgur.com/dRnvRZZ.jpg)
 
 Forking Potatoes is an ancient and well-mannered tradition.
 
@@ -24,7 +24,7 @@ Pull Requests
 
 If you have forked the Potato and are looking to submit a pull request, please adhere to the following rules.
 
-- Our potato is lightweight, and it doesn't need non-potato-related items.
+- Our Potato is lightweight, and it doesn't need non-Potato-related items.
 - If you are adding code to the Potato, please follow the lightweight mantra (no * imports, etc.).
 - Make sure that your code compiles and runs, if you are changing code.
 - Please format your code.
