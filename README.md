@@ -1,4 +1,4 @@
-Potato
+<a href="https://en.wikipedia.org/wiki/Potato" style="color: black; text-decoration: underline;text-decoration-style: dotted;">Potato</a>
 ======
 
 [![Discord](https://i.imgur.com/HLPoNnY.png)](https://discord.gg/5hBDT2P)
