@@ -1,4 +1,6 @@
-package org.drtshock;
+package org.drtshock.exceptions;
+
+import org.drtshock.types.NotDeliciousReason;
 
 /**
  * An exception to describe that the potato isn't delicious!
