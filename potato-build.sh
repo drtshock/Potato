@@ -13,7 +13,13 @@ if ! [ -z $1 ]; then
     fi
 fi
 
-echo "Using tag: '$TAG'"
+# Check if Docker is installed
+if ! [ -x "$(command -v docker)" ]; then
+    echo "You need to install Docker."
+    exit 1
+else
+    echo "Using tag: '$TAG'"
+fi
 
 # Perform the build
-docker build -t potato:$TAG -f Dockerfile.spud .
+# docker build -t potato:$TAG -f Dockerfile.spud .
