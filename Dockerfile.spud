@@ -12,7 +12,7 @@ RUN mvn clean install;
 FROM eclipse-temurin:21
 
 # Can be overridden with `docker run -e VEGAN="--vegan"`
-ENV VEGAN="--NONVEGAN"
+ENV VEGAN=""
 
 # Make am appropriate user name
 RUN adduser -u 500 mrpotatohead
