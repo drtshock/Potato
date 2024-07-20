@@ -22,4 +22,4 @@ else
 fi
 
 # Perform the build
-# docker build -t potato:$TAG -f Dockerfile.spud .
+docker build -t potato:$TAG -f Dockerfile.spud .
