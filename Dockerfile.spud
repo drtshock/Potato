@@ -15,7 +15,7 @@ FROM eclipse-temurin:21
 ENV VEGAN=""
 
 # Make am appropriate user name
-RUN adduser -u 500 mrpotatohead
+RUN useradd -u 500 mrpotatohead
 USER mrpotatohead
 
 WORKDIR /home/mrpotatohead

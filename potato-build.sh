@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# HOW TO BUILD THE POTATO IMAGE
+#  1. Run this script and pass in an optional tag for the container
+#     e.g. ./potato-build.sh 1.0.0
+#  2. Alternatively, you can can run using docker compose
+#     e.g. docker compose run --build potato
+#  2a. To pass in an argument, either edit the .env file, 
+#      or set a local environment variable: e.g. export VEGAN="--vegan"
+
+# Tag for the built container
 TAG=latest
 
 if ! [ -z $1 ]; then
