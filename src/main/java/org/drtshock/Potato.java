@@ -119,12 +119,13 @@ public class Potato implements Tuber {
      * @throws BurntException if the potato has been burned during the process of cooking
      */
     public boolean hasBeenBoiledInWater() throws BurntException {
-        int waterDegrees = (int) (Math.random() * 200);
-        System.out.println("Trying to boil potato at " + waterDegrees + " degrees.");
-        if (waterDegrees < 70) {
+        int waterDegreesFahrenheit = (int) (Math.random() * 200);
+        int waterDegreesCelsius = (int) ((waterDegreesFahrenheit - 32) / 1.8);
+        System.out.println("Trying to boil potato at (F:" + waterDegreesFahrenheit + ") (C:" + waterDegreesCelsius + ") degrees.");
+        if (waterDegreesFahrenheit < 70) {
             return false;
-        } else if (waterDegrees > 130) {
-            throw new BurntException(waterDegrees);
+        } else if (waterDegreesFahrenheit > 130) {
+            throw new BurntException(waterDegreesFahrenheit, waterDegreesCelsius);
         }
         return true;
     }
