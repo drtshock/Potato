@@ -1,16 +1,16 @@
 package org.drtshock;
 
 /**
- * An exception to describe that something went wrong with our oven!
+ * An exception to describe that our potato was burnt!
  */
 public class BurntException extends Exception {
 
-    public BurntException(int degrees) {
-        super("Potato is badly burnt by trying to boil it at " + degrees + " degrees!!");
+    public BurntException() {
+        super("Potato is badly burnt!!");
     }
 
-    public BurntException(long bakeTime) {
-        super("Potato is badly burnt by baking for too long!! (" + bakeTime + "ms)");
+    public BurntException(String reason) {
+        super(reason);
     }
 
 }
