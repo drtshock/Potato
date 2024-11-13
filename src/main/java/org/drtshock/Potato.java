@@ -11,22 +11,27 @@ import java.util.List;
  */
 public class Potato implements Tuber {
 
+    private final naming;
+    private final boolean isTurbo;
     private final boolean isVegan;
     private final List<Condiment> condiments = new ArrayList<>();
 
     public static void main(String[] args) {
-        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
+        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"), args.length == 2 && args[0].equals("--turbo"));
         if (potato.isVegan) System.out.println("This potato is vegan.");
+        if (potato.isTurbo) System.out.println("This potato is turbo!");
         try {
             potato.prepare();
-            System.out.println("Of course Potato is prepared and delicious.");
+            System.out.println("Of course " + this.naming + " is prepared and delicious.");
         } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
+            System.err.println("Fatal error! How could " + this.naming + " not be delicious?\nReason: " + e.getReason());
         }
     }
 
-    public Potato(boolean isVegan) {
+    public Potato(boolean isVegan, boolean isTurbo) {
         this.isVegan = isVegan;
+        this.isTurbo = isTurbo;
+        this.naming = (this.isVegan ? "Vegan " : "") + (this.isTurbo ? "Turbo " : "") + "Potato";
     }
 
     /**
@@ -120,7 +125,7 @@ public class Potato implements Tuber {
      */
     public boolean hasBeenBoiledInWater() throws BurntException {
         int waterDegrees = (int) (Math.random() * 200);
-        System.out.println("Trying to boil potato at " + waterDegrees + " degrees.");
+        System.out.println("Trying to boil " + this.naming + " at " + waterDegrees + " degrees.");
         if (waterDegrees < 70) {
             return false;
         } else if (waterDegrees > 130) {
@@ -159,7 +164,7 @@ public class Potato implements Tuber {
      */
     @Override
     public Tuber propagate() {
-        return new Potato(this.isVegan);
+        return new Potato(this.isVegan, this.isTurbo);
     }
 
     /**
