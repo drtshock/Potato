@@ -85,7 +85,7 @@ public class Potato implements Tuber {
     public boolean isPutIntoOven() throws OvenException, BurntException {
         try {
             long begin = System.currentTimeMillis();
-            final URL url = new URL("https://www.google.com/search?q=potato");
+            final URL url = new URL("https://duckduckgo.com/?q=potato");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.addRequestProperty("User-Agent", "Potato/2.0.0");
