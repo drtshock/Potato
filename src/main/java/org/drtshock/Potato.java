@@ -1,5 +1,10 @@
 package org.drtshock;
 
+import org.drtshock.exceptions.BurntException;
+import org.drtshock.exceptions.NotDeliciousException;
+import org.drtshock.types.NotDeliciousReason;
+import org.drtshock.exceptions.OvenException;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -14,19 +19,17 @@ public class Potato implements Tuber {
     private final boolean isVegan;
     private final List<Condiment> condiments = new ArrayList<>();
 
-    public static void main(String[] args) {
-        final Potato potato = new Potato(args.length == 1 && args[0].equals("--vegan"));
-        if (potato.isVegan) System.out.println("This potato is vegan.");
-        try {
-            potato.prepare();
-            System.out.println("Of course Potato is prepared and delicious.");
-        } catch (NotDeliciousException e) {
-            System.err.println("Fatal error! How could Potato not be delicious?\nReason: " + e.getReason());
-        }
-    }
-
     public Potato(boolean isVegan) {
         this.isVegan = isVegan;
+    }
+
+    /**
+     * Checks if this potato is vegan.
+     *
+     * @return true if this potato is vegan, false if otherwise
+     */
+    public boolean isVegan() {
+        return this.isVegan;
     }
 
     /**
@@ -44,10 +47,9 @@ public class Potato implements Tuber {
      *
      * @throws NotDeliciousException If the potato is not delicious
      */
-    public void prepare() throws NotDeliciousException {
+    public void prepare() throws NotDeliciousException, BurntException {
         this.addCondiments("chives", "butter", "pepper", "salt", "tabasco", "tomatoes", "onion");
         if (!this.isVegan) this.addCondiments("sour cream", "crumbled bacon", "grated cheese", "ketchup");
-        this.listCondiments();
         if (!this.isDelicious()) throw new NotDeliciousException(NotDeliciousReason.UNDERCOOKED);
     }
 
@@ -74,6 +76,16 @@ public class Potato implements Tuber {
         for (Condiment condiment : this.getCondiments()) {
             System.out.println(condiment.getName());
         }
+    }
+
+    /**
+     * Turns this potato into fries.
+     *
+     * @return A new {@link Fries} object
+     */
+    public Fries turnIntoFries() {
+        System.out.println("Turning potato into fries...");
+        return new Fries(isVegan);
     }
 
     /**
@@ -165,7 +177,7 @@ public class Potato implements Tuber {
     /**
      * A type of food added to tubers.
      */
-    private class Condiment {
+    private static class Condiment {
         private final String name;
         private final boolean delicious;
         private final boolean expired;
