@@ -1,8 +1,5 @@
 package org.drtshock;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,20 +80,11 @@ public class Potato implements Tuber {
      * @throws OvenException if the oven encounters an internal exception
      */
     public boolean isPutIntoOven() throws OvenException, BurntException {
-        try {
-            long begin = System.currentTimeMillis();
-            final URL url = new URL("https://www.google.com/search?q=potato");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.addRequestProperty("User-Agent", "Potato/2.0.0");
-            connection.connect();
-            int inOven = connection.getResponseCode();
-            long bakeTime = (System.currentTimeMillis() - begin);
-            if (bakeTime > 1100) throw new BurntException(bakeTime);
-            return inOven == 200;
-        } catch (IOException ex) {
-            throw new OvenException(ex);
-        }
+        long begin = System.currentTimeMillis();
+        int inOven = (int)(begin % 100);
+        long bakeTime = (System.currentTimeMillis() - begin);
+        if (bakeTime > 1100) throw new BurntException(bakeTime);
+        return inOven >= 10;
     }
 
     /**
