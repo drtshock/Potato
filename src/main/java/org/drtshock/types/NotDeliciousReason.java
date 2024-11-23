@@ -1,4 +1,4 @@
-package org.drtshock;
+package org.drtshock.types;
 
 /**
  * Different ways the potato can be not delicious
