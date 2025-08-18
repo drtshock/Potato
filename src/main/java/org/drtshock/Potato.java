@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * A delicious tuber that is eaten by various peoples all over the world.
+ * <img src="http://i.imgur.com/dRnvRZZ.jpg"/>
  */
 public class Potato implements Tuber {
 
